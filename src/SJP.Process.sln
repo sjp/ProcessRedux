@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SJP.Process", "SJP.Process\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJP.Process.ConsoleTest", "SJP.Process.ConsoleTest\SJP.Process.ConsoleTest.csproj", "{099EE08B-16C5-49FF-98AB-E2F30B9E2494}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJP.Process.Tests", "SJP.Process.Tests\SJP.Process.Tests.csproj", "{CC746CF4-C439-402E-BD41-5A8E03CD49EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{099EE08B-16C5-49FF-98AB-E2F30B9E2494}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{099EE08B-16C5-49FF-98AB-E2F30B9E2494}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{099EE08B-16C5-49FF-98AB-E2F30B9E2494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC746CF4-C439-402E-BD41-5A8E03CD49EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC746CF4-C439-402E-BD41-5A8E03CD49EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC746CF4-C439-402E-BD41-5A8E03CD49EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC746CF4-C439-402E-BD41-5A8E03CD49EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
