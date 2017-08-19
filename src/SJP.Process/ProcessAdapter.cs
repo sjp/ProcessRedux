@@ -6,27 +6,47 @@ using SysDataReceivedEventArgs = System.Diagnostics.DataReceivedEventArgs;
 
 namespace SJP.Process
 {
-    public class ProcessAdapter : IProcess
+    /// <summary>
+    /// A wrapper for a <see cref="SysProcess"/> instance that implements <see cref="IProcess"/>.
+    /// </summary>
+    public sealed class ProcessAdapter : IProcess
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ProcessAdapter"/>.
+        /// </summary>
+        /// <param name="process">A <see cref="SysProcess"/> instance that has not yet been started.</param>
         public ProcessAdapter(SysProcess process)
         {
             _process = process ?? throw new ArgumentNullException(nameof(process));
         }
 
+        /// <summary>
+        /// A convenience operator so that <see cref="SysProcess"/> instances can more easily be treated as an <see cref="IProcess"/>
+        /// </summary>
+        /// <param name="process">A <see cref="SysProcess"/> instance that has not yet been started.</param>
         public static implicit operator ProcessAdapter(SysProcess process) => new ProcessAdapter(process);
 
+        /// <summary>
+        /// Occurs when an application writes to its redirected <see cref="StandardError"/> stream.
+        /// </summary>
         public event EventHandler<SysDataReceivedEventArgs> ErrorDataReceived
         {
             add => _process.ErrorDataReceived += value.Invoke;
             remove => _process.ErrorDataReceived -= value.Invoke;
         }
 
+        /// <summary>
+        /// Occurs when a process exits.
+        /// </summary>
         public event EventHandler Exited
         {
             add => _process.Exited += value.Invoke;
             remove => _process.Exited -= value.Invoke;
         }
 
+        /// <summary>
+        /// Occurs each time an application writes a line to its redirected <see cref="StandardOutput"/> stream.
+        /// </summary>
         public event EventHandler<SysDataReceivedEventArgs> OutputDataReceived
         {
             add => _process.OutputDataReceived += value.Invoke;

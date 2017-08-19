@@ -36,12 +36,10 @@ namespace SJP.Process.ConsoleTest
                     RedirectStandardOutput = true
                 };
 
-                process.OnStandardOutputReceived += (s, data) =>
-                {
-                    writer.Write(data);
-                };
+                process.OnStandardOutputReceived += (s, data) => writer.Write(data);
                 var result = process.StartAsync(startInfo);
                 var exitCode = result.Result;
             }
         }
     }
+}

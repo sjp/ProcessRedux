@@ -117,5 +117,4 @@ namespace SJP.Process
 
         private readonly SysProcess _process = new SysProcess();
     }
-
 }
