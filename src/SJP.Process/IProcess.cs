@@ -26,6 +26,11 @@ namespace SJP.Process
         bool HasExited { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the associated process has started.
+        /// </summary>
+        bool HasStarted { get; }
+
+        /// <summary>
         /// Gets the unique identifier for the associated process.
         /// </summary>
         int Id { get; }

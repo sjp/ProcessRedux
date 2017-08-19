@@ -1,18 +1,17 @@
 ﻿using System;
 using System.IO;
-using SysStartInfo = System.Diagnostics.ProcessStartInfo;
 
 namespace SJP.Process
 {
     /// <summary>
-    /// Defines properties, methods and events that are common to processes on all platforms, and assumes that input and output is textual.
+    /// Defines properties, methods and events that are common to processes on all platforms, but do not assume that output is textual.
     /// </summary>
-    public interface IStringStreamingProcess
+    public interface IBasicStreamingProcess
     {
         /// <summary>
         /// Retrieves the current state of the process.
         /// </summary>
-        IProcessState CurrentState { get; }
+        IProcessState State { get; }
 
         /// <summary>
         /// Gets a stream used to write the input of the application.
@@ -53,9 +52,9 @@ namespace SJP.Process
         bool WaitForExit(TimeSpan timeout, out int exitCode);
 
         /// <summary>
-        /// Occurs when an application writes a line to its redirected <see cref="StandardError"/> stream. Provides the data received from the standard error stream.
+        /// Occurs when an application writes to its redirected <see cref="StandardError"/> stream. Provides the data received from the standard error stream.
         /// </summary>
-        event EventHandler<string> ErrorLineReceived;
+        event EventHandler<byte[]> ErrorDataReceived;
 
         /// <summary>
         /// Occurs when a process exits. Provides the exit code of the process when it exited.
@@ -63,8 +62,8 @@ namespace SJP.Process
         event EventHandler<int> Exited;
 
         /// <summary>
-        /// Occurs each time an application writes a line to its redirected <see cref="StandardOutput"/> stream. Provides the data received from the standard output stream.
+        /// Occurs each time an application writes to its redirected <see cref="StandardOutput"/> stream. Provides the data received from the standard output stream.
         /// </summary>
-        event EventHandler<string> OutputLineReceived;
+        event EventHandler<byte[]> OutputDataReceived;
     }
 }

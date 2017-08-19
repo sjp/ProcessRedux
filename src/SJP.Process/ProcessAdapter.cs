@@ -69,6 +69,11 @@ namespace SJP.Process
         public bool HasExited => _process.HasExited;
 
         /// <summary>
+        /// Gets a value indicating whether the associated process has started.
+        /// </summary>
+        public bool HasStarted => _hasStarted || GetHasStarted();
+
+        /// <summary>
         /// Gets the unique identifier for the associated process.
         /// </summary>
         public int Id => _process.Id;
@@ -215,6 +220,21 @@ namespace SJP.Process
         /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
         public bool WaitForExit(int milliseconds) => _process.WaitForExit(milliseconds);
 
+        private bool GetHasStarted()
+        {
+            try
+            {
+                var id = _process.Id;
+                _hasStarted = true;
+                return _hasStarted;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+        }
+
+        private bool _hasStarted;
         private readonly SysProcess _process;
     }
 }
