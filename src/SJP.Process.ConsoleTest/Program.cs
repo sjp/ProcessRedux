@@ -4,9 +4,9 @@ using System.IO;
 
 namespace SJP.Process.ConsoleTest
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             FFmpeg.Convert();
             Console.WriteLine("Press any key to exit...");
@@ -18,27 +18,20 @@ namespace SJP.Process.ConsoleTest
     {
         public static void Convert()
         {
-            var inputPath = @"C:\Users\sjp\Downloads\05. End Of Days.flac";
-            var outputPath = @"C:\Users\sjp\Downloads\05. End Of Days.mp3";
-            var processPath = @"C:\Users\sjp\Downloads\ffmpeg-20170815-62dfa2b-win64-static\bin\ffmpeg.exe";
+            const string flacInputPath = @"C:\Users\sjp\Downloads\05. End Of Days.flac";
+            const string mp3OutputPath = @"C:\Users\sjp\Downloads\05. End Of Days.mp3";
+            const string ffmpegPath = @"C:\Users\sjp\Downloads\ffmpeg-20170815-62dfa2b-win64-static\bin\ffmpeg.exe";
 
-            if (File.Exists(outputPath))
-                File.Delete(outputPath);
+            if (File.Exists(mp3OutputPath))
+                File.Delete(mp3OutputPath);
 
-            using (var writer = new BinaryWriter(File.OpenWrite(outputPath)))
+            var processConfig = new ProcessConfiguration(ffmpegPath) { Arguments = $"-i \"{ flacInputPath }\" -b:a 192k -f mp3 -" };
+            using (var writer = new BinaryWriter(File.OpenWrite(mp3OutputPath)))
+            using (var process = new DataStreamingProcess(processConfig))
             {
-                var process = new AsyncProcess();
-                var startInfo = new ProcessStartInfo
-                {
-                    CreateNoWindow = true,
-                    FileName = processPath,
-                    Arguments = $"-i \"{ inputPath }\" -b:a 192k -f mp3 -",
-                    RedirectStandardOutput = true
-                };
-
-                process.OnStandardOutputReceived += (s, data) => writer.Write(data);
-                var result = process.StartAsync(startInfo);
-                var exitCode = result.Result;
+                process.OutputDataReceived += (s, data) => writer.Write(data);
+                process.Start();
+                var exitCode = process.WaitForExit();
             }
         }
     }

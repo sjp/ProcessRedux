@@ -205,7 +205,7 @@ namespace SJP.Process
         /// <summary>
         /// Starts (or reuses) the process resource that is specified by the <see cref="StartInfo"/> property of this <see cref="ProcessAdapter"/> component and associates it with the component.
         /// </summary>
-        /// <returns><c>true</c> if a process resource is started; <c>false</c> if no new process resource is started (for example, if an existing process is reused).</returns>
+        /// <returns><c>true</c> if a process resource is started; <c>false</c> otherwise.</returns>
         public bool Start() => _process.Start();
 
         /// <summary>

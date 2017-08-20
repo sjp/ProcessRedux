@@ -10,7 +10,7 @@ namespace SJP.Process
         // Creates a new AsyncStreamReader for the given stream. The
         // character encoding is set by encoding and the buffer size,
         // in number of 16-bit characters, is set by bufferSize.
-        internal AsyncStreamReader(Stream stream, Action<byte[]> callback)
+        public AsyncStreamReader(Stream stream, Action<byte[]> callback)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));

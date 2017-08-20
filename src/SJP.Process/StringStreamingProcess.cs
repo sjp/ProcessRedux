@@ -78,7 +78,7 @@ namespace SJP.Process
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException("The process has not yet been started. Cannot determine the current state of a non-running process.", nameof(State));
+                    throw new ArgumentException($"The process has not yet been started. Cannot determine the current state of a non-running process. Use the { nameof(HasStarted) } property to find out whether a process has been started.", nameof(State));
 
                 var adapter = new ProcessAdapter(_process);
                 return new ProcessState(adapter);
@@ -90,7 +90,7 @@ namespace SJP.Process
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException("The process has not yet been started. Cannot write standard input to a process that has not been started.", nameof(State));
+                    throw new ArgumentException($"The process has not yet been started. Cannot write standard input to a process that has not been started. Use the { nameof(HasStarted) } property to find out whether a process has been started.", nameof(State));
 
                 return _process.StandardInput.BaseStream;
             }

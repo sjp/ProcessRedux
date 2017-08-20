@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using SysProcess = System.Diagnostics.Process;
 
 namespace SJP.Process
 {
-    public class BasicStreamingProcess : IProcess
+    public class DataStreamingProcess : IDataStreamingProcess, IDataStreamingProcessAsync
     {
-        public BasicStreamingProcess(IProcessConfiguration processConfig)
+        public DataStreamingProcess(IProcessConfiguration processConfig)
         {
             if (processConfig == null)
                 throw new ArgumentNullException(nameof(processConfig));
@@ -62,6 +63,8 @@ namespace SJP.Process
 
         public void Kill() => _process.Kill();
 
+        public Task KillAsync() => Task.Run(action: _process.Kill);
+
         public bool Start()
         {
             if (_hasStarted)
@@ -70,13 +73,19 @@ namespace SJP.Process
             _process.Start();
             _hasStarted = true;
 
-            Action<byte[]> errorHandler = data => ErrorDataReceived?.Invoke(this, data);
-            var error = new AsyncStreamReader(_process.StandardError.BaseStream, errorHandler);
-            error.BeginRead();
+            if (ErrorDataReceived != null)
+            {
+                Action<byte[]> errorHandler = data => ErrorDataReceived?.Invoke(this, data);
+                _errorReader = new AsyncStreamReader(_process.StandardError.BaseStream, errorHandler);
+                _errorReader.BeginRead();
+            }
 
-            Action<byte[]> outputHandler = data => OutputDataReceived?.Invoke(this, data);
-            var output = new AsyncStreamReader(_process.StandardOutput.BaseStream, outputHandler);
-            output.BeginRead();
+            if (OutputDataReceived != null)
+            {
+                Action<byte[]> outputHandler = data => OutputDataReceived?.Invoke(this, data);
+                _outputReader = new AsyncStreamReader(_process.StandardOutput.BaseStream, outputHandler);
+                _outputReader.BeginRead();
+            }
 
             return _hasStarted;
         }
@@ -86,6 +95,8 @@ namespace SJP.Process
             _process.WaitForExit();
             return _process.ExitCode;
         }
+
+        public Task<int> WaitForExitAsync() => Task.Run(() => WaitForExit());
 
         public bool WaitForExit(int milliseconds, out int exitCode)
         {
@@ -132,6 +143,8 @@ namespace SJP.Process
             if (!disposing)
                 return;
 
+            _errorReader?.CancelOperation();
+            _outputReader?.CancelOperation();
             _process.Dispose();
             _disposed = true;
         }
@@ -141,6 +154,9 @@ namespace SJP.Process
         private bool _hasStarted;
 
         private EventHandler<int> _exitedHandler;
+
+        private AsyncStreamReader _errorReader;
+        private AsyncStreamReader _outputReader;
 
         private readonly SysProcess _process = new SysProcess();
     }

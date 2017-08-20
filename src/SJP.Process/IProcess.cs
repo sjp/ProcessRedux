@@ -64,5 +64,10 @@ namespace SJP.Process
         /// <param name="timeout">The amount of time to wait for the associated process to exit. The maximum is the largest possible value for milliseconds of a 32-bit integer, which represents infinity to the operating system. Any timespan larger than a 32-bit millisecond timeout is assumed to be infinite.</param>
         /// <returns>A tuple of length two. The component returns <c>true</c> if the associated process has exited; otherwise, <c>false</c>. The second component is the value that the associated process specified when it terminated, defaults to <c>0</c> when the timeout expired before the process exited.</returns>
         (bool exited, int exitCode) WaitForExit(TimeSpan timeout);
+
+        /// <summary>
+        /// Occurs when a process exits. Provides the exit code of the process when it exited.
+        /// </summary>
+        event EventHandler<int> Exited;
     }
 }

@@ -1,27 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
-using System.Security;
-using System.Text;
 
 namespace SJP.Process
 {
     internal static class NumericExtensions
     {
-        public static int Clamp(this int number, int minValue, int maxValue)
-        {
-            if (number < minValue)
-                return minValue;
-            if (number > maxValue)
-                return maxValue;
-
-            return number;
-        }
-
         public static double Clamp(this double number, double minValue, double maxValue)
         {
             if (number < minValue)

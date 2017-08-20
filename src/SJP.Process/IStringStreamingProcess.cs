@@ -13,11 +13,6 @@ namespace SJP.Process
         event EventHandler<string> ErrorLineReceived;
 
         /// <summary>
-        /// Occurs when a process exits. Provides the exit code of the process when it exited.
-        /// </summary>
-        event EventHandler<int> Exited;
-
-        /// <summary>
         /// Occurs each time an application writes a line to its redirected <see cref="StandardOutput"/> stream. Provides the data received from the standard output stream.
         /// </summary>
         event EventHandler<string> OutputLineReceived;
