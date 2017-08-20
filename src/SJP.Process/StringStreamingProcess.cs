@@ -2,11 +2,12 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using SysProcess = System.Diagnostics.Process;
 
 namespace SJP.Process
 {
-    public class StringStreamingProcess : IStringStreamingProcess
+    public class StringStreamingProcess : IStringStreamingProcess, IStringStreamingProcessAsync
     {
         public StringStreamingProcess(IProcessConfiguration processConfig, Encoding errorEncoding = null, Encoding outputEncoding = null)
         {
@@ -98,6 +99,8 @@ namespace SJP.Process
 
         public void Kill() => _process.Kill();
 
+        public Task KillAsync() => Task.Run(action: _process.Kill);
+
         public bool Start()
         {
             if (_hasStarted)
@@ -117,6 +120,8 @@ namespace SJP.Process
             _process.WaitForExit();
             return _process.ExitCode;
         }
+
+        public Task<int> WaitForExitAsync() => Task.Run(() => WaitForExit());
 
         public bool WaitForExit(int milliseconds, out int exitCode)
         {
