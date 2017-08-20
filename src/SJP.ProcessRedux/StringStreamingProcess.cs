@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using SysProcess = System.Diagnostics.Process;
 
 namespace SJP.ProcessRedux
 {
@@ -18,7 +17,7 @@ namespace SJP.ProcessRedux
             startInfo.StandardErrorEncoding = errorEncoding;
             startInfo.StandardOutputEncoding = outputEncoding;
 
-            _process = new SysProcess
+            _process = new Process
             {
                 StartInfo = startInfo,
                 EnableRaisingEvents = true
@@ -196,6 +195,6 @@ namespace SJP.ProcessRedux
         private EventHandler<string> _errorHandler;
         private EventHandler<string> _outputHandler;
 
-        private readonly SysProcess _process;
+        private readonly Process _process;
     }
 }

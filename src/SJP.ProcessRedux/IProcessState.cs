@@ -1,7 +1,4 @@
 ﻿using System;
-using System.IO;
-using SysStartInfo = System.Diagnostics.ProcessStartInfo;
-using SysDataReceivedEventArgs = System.Diagnostics.DataReceivedEventArgs;
 
 namespace SJP.ProcessRedux
 {

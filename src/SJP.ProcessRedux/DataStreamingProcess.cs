@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using SysProcess = System.Diagnostics.Process;
 
 namespace SJP.ProcessRedux
 {
@@ -158,6 +158,6 @@ namespace SJP.ProcessRedux
         private AsyncStreamReader _errorReader;
         private AsyncStreamReader _outputReader;
 
-        private readonly SysProcess _process = new SysProcess();
+        private readonly Process _process = new Process();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-using SysStartInfo = System.Diagnostics.ProcessStartInfo;
-using SysDataReceivedEventArgs = System.Diagnostics.DataReceivedEventArgs;
+using System.Diagnostics;
 
 namespace SJP.ProcessRedux
 {
@@ -98,7 +97,7 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Gets or sets the properties to pass to the <see cref="Start()"/> method of the Process.
         /// </summary>
-        SysStartInfo StartInfo { get; set; }
+        ProcessStartInfo StartInfo { get; set; }
 
         /// <summary>
         /// Gets the time that the associated process was started.
@@ -176,7 +175,7 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Occurs when an application writes to its redirected <see cref="StandardError"/> stream.
         /// </summary>
-        event EventHandler<SysDataReceivedEventArgs> ErrorDataReceived;
+        event EventHandler<DataReceivedEventArgs> ErrorDataReceived;
 
         /// <summary>
         /// Occurs when a process exits.
@@ -186,6 +185,6 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Occurs each time an application writes a line to its redirected <see cref="StandardOutput"/> stream.
         /// </summary>
-        event EventHandler<SysDataReceivedEventArgs> OutputDataReceived;
+        event EventHandler<DataReceivedEventArgs> OutputDataReceived;
     }
 }

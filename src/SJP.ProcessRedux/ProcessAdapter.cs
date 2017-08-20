@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using SysProcess = System.Diagnostics.Process;
-using SysStartInfo = System.Diagnostics.ProcessStartInfo;
-using SysDataReceivedEventArgs = System.Diagnostics.DataReceivedEventArgs;
+using System.Diagnostics;
 
 namespace SJP.ProcessRedux
 {
@@ -15,7 +13,7 @@ namespace SJP.ProcessRedux
         /// Initializes a new instance of <see cref="ProcessAdapter"/>.
         /// </summary>
         /// <param name="process">A <see cref="SysProcess"/> instance that has not yet been started.</param>
-        public ProcessAdapter(SysProcess process)
+        public ProcessAdapter(Process process)
         {
             _process = process ?? throw new ArgumentNullException(nameof(process));
         }
@@ -24,12 +22,12 @@ namespace SJP.ProcessRedux
         /// A convenience operator so that <see cref="SysProcess"/> instances can more easily be treated as an <see cref="IFrameworkProcess"/>
         /// </summary>
         /// <param name="process">A <see cref="SysProcess"/> instance that has not yet been started.</param>
-        public static implicit operator ProcessAdapter(SysProcess process) => new ProcessAdapter(process);
+        public static implicit operator ProcessAdapter(Process process) => new ProcessAdapter(process);
 
         /// <summary>
         /// Occurs when an application writes to its redirected <see cref="StandardError"/> stream.
         /// </summary>
-        public event EventHandler<SysDataReceivedEventArgs> ErrorDataReceived
+        public event EventHandler<DataReceivedEventArgs> ErrorDataReceived
         {
             add => _process.ErrorDataReceived += value.Invoke;
             remove => _process.ErrorDataReceived -= value.Invoke;
@@ -47,7 +45,7 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Occurs each time an application writes a line to its redirected <see cref="StandardOutput"/> stream.
         /// </summary>
-        public event EventHandler<SysDataReceivedEventArgs> OutputDataReceived
+        public event EventHandler<DataReceivedEventArgs> OutputDataReceived
         {
             add => _process.OutputDataReceived += value.Invoke;
             remove => _process.OutputDataReceived -= value.Invoke;
@@ -141,7 +139,7 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Gets or sets the properties used by the <see cref="Start()"/> method of the Process.
         /// </summary>
-        public SysStartInfo StartInfo
+        public ProcessStartInfo StartInfo
         {
             get => _process.StartInfo;
             set => _process.StartInfo = value ?? throw new ArgumentNullException(nameof(StartInfo));
@@ -250,6 +248,6 @@ namespace SJP.ProcessRedux
 
         private bool _hasStarted;
         private bool _disposed;
-        private readonly SysProcess _process;
+        private readonly Process _process;
     }
 }
