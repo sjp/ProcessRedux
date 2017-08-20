@@ -5,24 +5,24 @@ using System.Diagnostics;
 namespace SJP.ProcessRedux
 {
     /// <summary>
-    /// A wrapper for a <see cref="SysProcess"/> instance that implements <see cref="IFrameworkProcess"/>.
+    /// A wrapper for a <see cref="Process"/> instance that implements <see cref="IFrameworkProcess"/>.
     /// </summary>
-    public sealed class ProcessAdapter : IFrameworkProcess
+    public sealed class FrameworkProcessAdapter : IFrameworkProcess
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ProcessAdapter"/>.
+        /// Initializes a new instance of <see cref="FrameworkProcessAdapter"/>.
         /// </summary>
-        /// <param name="process">A <see cref="SysProcess"/> instance that has not yet been started.</param>
-        public ProcessAdapter(Process process)
+        /// <param name="process">A <see cref="Process"/> instance that has not yet been started.</param>
+        public FrameworkProcessAdapter(Process process)
         {
             _process = process ?? throw new ArgumentNullException(nameof(process));
         }
 
         /// <summary>
-        /// A convenience operator so that <see cref="SysProcess"/> instances can more easily be treated as an <see cref="IFrameworkProcess"/>
+        /// A convenience operator so that <see cref="Process"/> instances can more easily be treated as an <see cref="IFrameworkProcess"/>
         /// </summary>
-        /// <param name="process">A <see cref="SysProcess"/> instance that has not yet been started.</param>
-        public static implicit operator ProcessAdapter(Process process) => new ProcessAdapter(process);
+        /// <param name="process">A <see cref="Process"/> instance that has not yet been started.</param>
+        public static implicit operator FrameworkProcessAdapter(Process process) => new FrameworkProcessAdapter(process);
 
         /// <summary>
         /// Occurs when an application writes to its redirected <see cref="StandardError"/> stream.
@@ -201,18 +201,18 @@ namespace SJP.ProcessRedux
         public void Refresh() => _process.Refresh();
 
         /// <summary>
-        /// Starts (or reuses) the process resource that is specified by the <see cref="StartInfo"/> property of this <see cref="ProcessAdapter"/> component and associates it with the component.
+        /// Starts (or reuses) the process resource that is specified by the <see cref="StartInfo"/> property of this <see cref="FrameworkProcessAdapter"/> component and associates it with the component.
         /// </summary>
         /// <returns><c>true</c> if a process resource is started; <c>false</c> otherwise.</returns>
         public bool Start() => _process.Start();
 
         /// <summary>
-        /// Instructs the <see cref="ProcessAdapter"/> component to wait indefinitely for the associated process to exit.
+        /// Instructs the <see cref="FrameworkProcessAdapter"/> component to wait indefinitely for the associated process to exit.
         /// </summary>
         public void WaitForExit() => _process.WaitForExit();
 
         /// <summary>
-        /// Instructs the <see cref="ProcessAdapter"/> component to wait the specified number of milliseconds for the associated process to exit.
+        /// Instructs the <see cref="FrameworkProcessAdapter"/> component to wait the specified number of milliseconds for the associated process to exit.
         /// </summary>
         /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
         /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
@@ -232,8 +232,15 @@ namespace SJP.ProcessRedux
             }
         }
 
+        /// <summary>
+        /// Releases resources used by the current <see cref="FrameworkProcessAdapter"/> instance.
+        /// </summary>
         public void Dispose() => Dispose(true);
 
+        /// <summary>
+        /// Releases resources used by the current <see cref="ObservableDataStreamingProcess"/> instance.
+        /// </summary>
+        /// <param name="disposing"><b>True</b> if managed resources are to be disposed. <b>False</b> will not dispose any resources.</param>
         private void Dispose(bool disposing)
         {
             if (_disposed)

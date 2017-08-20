@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace SJP.ProcessRedux
 {
     /// <summary>
-    /// Defines properties, methods and events that are common to processes on all platforms, as implemented by <see cref="System.Diagnostics.Process"/>. Includes one extra property, <see cref="HasStarted"/>.
+    /// Defines properties, methods and events that are common to processes on all platforms, as implemented by <see cref="Process"/>. Includes one extra property, <see cref="HasStarted"/>.
     /// </summary>
     public interface IFrameworkProcess : IDisposable
     {

@@ -8,12 +8,12 @@ namespace SJP.ProcessRedux
     public interface IObservableStringStreamingProcess : IProcessAsync
     {
         /// <summary>
-        /// Provides a subscriptions to events when a process writes a line to its redirected <see cref="StandardError"/> stream.
+        /// Provides a subscriptions to events when a process writes a line to its redirected standard error stream.
         /// </summary>
         IObservable<string> ErrorLines { get; }
 
         /// <summary>
-        /// Provides a subscriptions to events when a process writes a line to its redirected <see cref="StandardOutput"/> stream.
+        /// Provides a subscriptions to events when a process writes a line to its redirected standard output stream.
         /// </summary>
         IObservable<string> OutputLines { get; }
     }

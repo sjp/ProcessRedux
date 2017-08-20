@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Security;
 
 namespace SJP.ProcessRedux
 {
@@ -21,8 +22,6 @@ namespace SJP.ProcessRedux
 
     internal static class StringExtensions
     {
-        public static bool IsNullOrEmpty(this string input) => string.IsNullOrEmpty(input);
-
         public static bool IsNullOrWhiteSpace(this string input) => string.IsNullOrWhiteSpace(input);
     }
 
@@ -37,23 +36,30 @@ namespace SJP.ProcessRedux
             {
                 Arguments = processConfig.Arguments,
                 CreateNoWindow = true,
-                Domain = processConfig.Credentials?.Domain,
                 FileName = processConfig.FileName,
-                Password = processConfig.Credentials?.SecurePassword,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
-                UserName = processConfig.Credentials?.UserName,
                 UseShellExecute = false,
                 WorkingDirectory = processConfig.WorkingDirectory
             };
 
+#if HAS_PROCESS_CREDENTIALS
+            startInfo.Domain = processConfig.Credentials?.Domain;
+            startInfo.UserName = processConfig.Credentials?.UserName;
+#if HAS_PROCESS_CREDENTIALS_PASSWORDINCLEARTEXT
+            startInfo.PasswordInClearText = processConfig.Credentials?.Password;
+#endif
+#endif
+
+#if HAS_ENVVARS
             var configVars = processConfig.EnvironmentVariables ?? new Dictionary<string, string>();
             if (configVars.Count > 0)
             {
                 foreach (var kv in configVars)
                     startInfo.EnvironmentVariables[kv.Key] = kv.Value;
             }
+#endif
 
             return startInfo;
         }
@@ -69,16 +75,19 @@ namespace SJP.ProcessRedux
                 throw new ArgumentException($"The { nameof(ProcessStartInfo) } object must contain a file name.", nameof(startInfo));
 
             NetworkCredential credentials = null;
+#if HAS_PROCESS_CREDENTIALS_PASSWORDINCLEARTEXT
             var hasCredentials = !startInfo.Domain.IsNullOrWhiteSpace()
                 || !startInfo.UserName.IsNullOrWhiteSpace()
-                || startInfo.Password != null
                 || !startInfo.PasswordInClearText.IsNullOrWhiteSpace();
             if (hasCredentials)
-            {
-                credentials = startInfo.Password != null
-                    ? new NetworkCredential(startInfo.UserName, startInfo.Password, startInfo.Domain)
-                    : new NetworkCredential(startInfo.UserName, startInfo.PasswordInClearText, startInfo.Domain);
-            }
+                credentials = new NetworkCredential(startInfo.UserName, startInfo.PasswordInClearText, startInfo.Domain);
+#elif HAS_PROCESS_CREDENTIALS
+            var hasCredentials = !startInfo.Domain.IsNullOrWhiteSpace()
+                || !startInfo.UserName.IsNullOrWhiteSpace()
+                || startInfo.Password != null;
+            if (hasCredentials)
+                credentials = new NetworkCredential(startInfo.UserName, startInfo.Password, startInfo.Domain);
+#endif
 
             var processConfig = new ProcessConfiguration(startInfo.FileName)
             {
@@ -87,11 +96,13 @@ namespace SJP.ProcessRedux
                 WorkingDirectory = startInfo.WorkingDirectory
             };
 
+#if HAS_ENVVARS
             if (startInfo.EnvironmentVariables != null)
             {
                 foreach (DictionaryEntry entry in startInfo.EnvironmentVariables)
                     processConfig.EnvironmentVariables[entry.Key.ToString()] = entry.Value.ToString();
             }
+#endif
 
             return processConfig;
         }

@@ -8,12 +8,12 @@ namespace SJP.ProcessRedux
     public interface IDataStreamingProcess : IProcess
     {
         /// <summary>
-        /// Occurs when an application writes to its redirected <see cref="StandardError"/> stream. Provides the data received from the standard error stream.
+        /// Occurs when an application writes to its redirected standard error stream. Provides the data received from the standard error stream.
         /// </summary>
         event EventHandler<byte[]> ErrorDataReceived;
 
         /// <summary>
-        /// Occurs each time an application writes to its redirected <see cref="StandardOutput"/> stream. Provides the data received from the standard output stream.
+        /// Occurs each time an application writes to its redirected standard output stream. Provides the data received from the standard output stream.
         /// </summary>
         event EventHandler<byte[]> OutputDataReceived;
     }

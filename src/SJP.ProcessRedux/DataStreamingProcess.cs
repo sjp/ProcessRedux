@@ -5,8 +5,15 @@ using System.Threading.Tasks;
 
 namespace SJP.ProcessRedux
 {
+    /// <summary>
+    /// Represents a process that streams raw data output.
+    /// </summary>
     public class DataStreamingProcess : IDataStreamingProcess, IDataStreamingProcessAsync
     {
+        /// <summary>
+        /// Initializes a new <see cref="DataStreamingProcess"/> instance.
+        /// </summary>
+        /// <param name="processConfig">Configuration used to determine how to start the process.</param>
         public DataStreamingProcess(IProcessConfiguration processConfig)
         {
             if (processConfig == null)
@@ -17,9 +24,9 @@ namespace SJP.ProcessRedux
             Exited += (s, e) => _hasExited = true;
         }
 
-        public event EventHandler<byte[]> ErrorDataReceived;
-        public event EventHandler<byte[]> OutputDataReceived;
-
+        /// <summary>
+        /// Occurs when the process exits. Returns the exit code of the process when this occurs.
+        /// </summary>
         public event EventHandler<int> Exited
         {
             add
@@ -34,10 +41,29 @@ namespace SJP.ProcessRedux
             }
         }
 
+        /// <summary>
+        /// Occurs when an application writes to its standard error stream. Provides the data received from the standard error stream.
+        /// </summary>
+        public event EventHandler<byte[]> ErrorDataReceived;
+
+        /// <summary>
+        /// Occurs when an application writes to its standard output stream. Provides the data received from the standard output stream.
+        /// </summary>
+        public event EventHandler<byte[]> OutputDataReceived;
+
+        /// <summary>
+        /// Gets a value indicating whether the associated process has been terminated.
+        /// </summary>
         public bool HasExited => _hasExited;
 
+        /// <summary>
+        /// Gets a value indicating whether the associated process has started.
+        /// </summary>
         public bool HasStarted => _hasStarted;
 
+        /// <summary>
+        /// Retrieves the current state of the process. The process must be started for this operation to be valid, see <see cref="HasStarted"/>.
+        /// </summary>
         public IProcessState State
         {
             get
@@ -45,11 +71,14 @@ namespace SJP.ProcessRedux
                 if (!_hasStarted)
                     throw new ArgumentException("The process has not yet been started. Cannot determine the current state of a non-running process.", nameof(State));
 
-                var adapter = new ProcessAdapter(_process);
+                var adapter = new FrameworkProcessAdapter(_process);
                 return new ProcessState(adapter);
             }
         }
 
+        /// <summary>
+        /// Gets a stream used to write the input of the application. The process must be started for this operation to be valid, see <see cref="HasStarted"/>.
+        /// </summary>
         public Stream StandardInput
         {
             get
@@ -61,10 +90,21 @@ namespace SJP.ProcessRedux
             }
         }
 
+        /// <summary>
+        /// Immediately stops the associated process.
+        /// </summary>
         public void Kill() => _process.Kill();
 
+        /// <summary>
+        /// Immediately stops the associated process.
+        /// </summary>
+        /// <returns>A task representing the asynchronous process kill operation.</returns>
         public Task KillAsync() => Task.Run(action: _process.Kill);
 
+        /// <summary>
+        /// Starts the process resource that is described by this component.
+        /// </summary>
+        /// <returns><c>true</c> if a process resource is started; <c>false</c> otherwise.</returns>
         public bool Start()
         {
             if (_hasStarted)
@@ -90,14 +130,28 @@ namespace SJP.ProcessRedux
             return _hasStarted;
         }
 
+        /// <summary>
+        /// Instructs the <see cref="DataStreamingProcess"/> component to wait indefinitely for the associated process to exit.
+        /// </summary>
+        /// <returns>The value that the associated process specified when it terminated.</returns>
         public int WaitForExit()
         {
             _process.WaitForExit();
             return _process.ExitCode;
         }
 
+        /// <summary>
+        /// Instructs the <see cref="DataStreamingProcess"/> component to wait indefinitely for the associated process to exit.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous wait operation.</returns>
         public Task<int> WaitForExitAsync() => Task.Run(() => WaitForExit());
 
+        /// <summary>
+        /// Instructs the <see cref="DataStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
+        /// </summary>
+        /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
+        /// <param name="exitCode">The value that the associated process specified when it terminated. Defaults to <c>0</c> when the timeout expired before the process exited.</param>
+        /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
         public bool WaitForExit(int milliseconds, out int exitCode)
         {
             var hasExited = _process.WaitForExit(milliseconds);
@@ -106,12 +160,23 @@ namespace SJP.ProcessRedux
             return hasExited;
         }
 
+        /// <summary>
+        /// Instructs the <see cref="DataStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
+        /// </summary>
+        /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
+        /// <returns>A tuple of length two. The component returns <c>true</c> if the associated process has exited; otherwise, <c>false</c>. The second component is the value that the associated process specified when it terminated, defaults to <c>0</c> when the timeout expired before the process exited.</returns>
         public (bool exited, int exitCode) WaitForExit(int milliseconds)
         {
             var hasExited = _process.WaitForExit(milliseconds);
             return (hasExited, hasExited ? _process.ExitCode : 0);
         }
 
+        /// <summary>
+        /// Instructs the <see cref="DataStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
+        /// </summary>
+        /// <param name="timeout">The amount of time to wait for the associated process to exit. The maximum is the largest possible value for milliseconds of a 32-bit integer, which represents infinity to the operating system. Any timespan larger than a 32-bit millisecond timeout is assumed to be infinite.</param>
+        /// <param name="exitCode">The value that the associated process specified when it terminated. Defaults to <c>0</c> when the timeout expired before the process exited.</param>
+        /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
         public bool WaitForExit(TimeSpan timeout, out int exitCode)
         {
             var milliseconds = timeout.TotalMilliseconds.Clamp(0, int.MaxValue);
@@ -120,6 +185,11 @@ namespace SJP.ProcessRedux
             return WaitForExit(intMs, out exitCode);
         }
 
+        /// <summary>
+        /// Instructs the <see cref="DataStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
+        /// </summary>
+        /// <param name="timeout">The amount of time to wait for the associated process to exit. The maximum is the largest possible value for milliseconds of a 32-bit integer, which represents infinity to the operating system. Any timespan larger than a 32-bit millisecond timeout is assumed to be infinite.</param>
+        /// <returns>A tuple of length two. The component returns <c>true</c> if the associated process has exited; otherwise, <c>false</c>. The second component is the value that the associated process specified when it terminated, defaults to <c>0</c> when the timeout expired before the process exited.</returns>
         public (bool exited, int exitCode) WaitForExit(TimeSpan timeout)
         {
             var milliseconds = timeout.TotalMilliseconds.Clamp(0, int.MaxValue);
@@ -128,13 +198,26 @@ namespace SJP.ProcessRedux
             return WaitForExit(intMs);
         }
 
-        protected void OnExitedReceived(object sender, EventArgs args)
+        private void OnExitedReceived(object sender, EventArgs args) => OnExitedReceived(_process.ExitCode);
+
+        /// <summary>
+        /// Raises the <see cref="Exited"/> event.
+        /// </summary>
+        /// <param name="exitCode">The exit code of the process when it exited.</param>
+        protected virtual void OnExitedReceived(int exitCode)
         {
-            _exitedHandler?.Invoke(this, _process.ExitCode);
+            _exitedHandler?.Invoke(this, exitCode);
         }
 
+        /// <summary>
+        /// Releases resources used by the current <see cref="DataStreamingProcess"/> instance.
+        /// </summary>
         public void Dispose() => Dispose(true);
 
+        /// <summary>
+        /// Releases resources used by the current <see cref="DataStreamingProcess"/> instance.
+        /// </summary>
+        /// <param name="disposing"><b>True</b> if managed resources are to be disposed. <b>False</b> will not dispose any resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)

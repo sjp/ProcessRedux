@@ -26,7 +26,7 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Starts the process resource that is described by this component.
         /// </summary>
-        /// <returns><c>true</c> if a process resource is started; <c>false</c> if no new process resource is started (for example, if an existing process is reused).</returns>
+        /// <returns><c>true</c> if a process resource is started; <c>false</c> otherwise.</returns>
         bool Start();
 
         /// <summary>
