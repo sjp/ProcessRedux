@@ -4,7 +4,7 @@ namespace SJP.Process
 {
     public class ProcessState : IProcessState
     {
-        public ProcessState(IProcess process)
+        public ProcessState(IFrameworkProcess process)
         {
             if (process == null)
                 throw new ArgumentNullException(nameof(process));

@@ -7,9 +7,9 @@ using SysDataReceivedEventArgs = System.Diagnostics.DataReceivedEventArgs;
 namespace SJP.Process
 {
     /// <summary>
-    /// A wrapper for a <see cref="SysProcess"/> instance that implements <see cref="IProcess"/>.
+    /// A wrapper for a <see cref="SysProcess"/> instance that implements <see cref="IFrameworkProcess"/>.
     /// </summary>
-    public sealed class ProcessAdapter : IProcess
+    public sealed class ProcessAdapter : IFrameworkProcess
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ProcessAdapter"/>.
@@ -21,7 +21,7 @@ namespace SJP.Process
         }
 
         /// <summary>
-        /// A convenience operator so that <see cref="SysProcess"/> instances can more easily be treated as an <see cref="IProcess"/>
+        /// A convenience operator so that <see cref="SysProcess"/> instances can more easily be treated as an <see cref="IFrameworkProcess"/>
         /// </summary>
         /// <param name="process">A <see cref="SysProcess"/> instance that has not yet been started.</param>
         public static implicit operator ProcessAdapter(SysProcess process) => new ProcessAdapter(process);
@@ -234,7 +234,22 @@ namespace SJP.Process
             }
         }
 
+        public void Dispose() => Dispose(true);
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (!disposing)
+                return;
+
+            _process.Dispose();
+            _disposed = true;
+        }
+
         private bool _hasStarted;
+        private bool _disposed;
         private readonly SysProcess _process;
     }
 }

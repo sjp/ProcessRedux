@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using SysProcess = System.Diagnostics.Process;
-using SysStartInfo = System.Diagnostics.ProcessStartInfo;
 
 namespace SJP.Process
 {
-    public class StringStreamingProcess : IStringStreamingProcess, IDisposable
+    public class StringStreamingProcess : IStringStreamingProcess
     {
-        public StringStreamingProcess(SysStartInfo startInfo)
+        public StringStreamingProcess(IProcessConfiguration processConfig, Encoding errorEncoding = null, Encoding outputEncoding = null)
         {
-            if (startInfo == null)
-                throw new ArgumentNullException(nameof(startInfo));
+            if (processConfig == null)
+                throw new ArgumentNullException(nameof(processConfig));
 
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardInput = true;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.UseShellExecute = false;
-            startInfo.CreateNoWindow = true;
+            var startInfo = processConfig.ToStartInfo();
+            startInfo.StandardErrorEncoding = errorEncoding;
+            startInfo.StandardOutputEncoding = outputEncoding;
 
-            _process.StartInfo = startInfo;
-            _process.EnableRaisingEvents = true;
+            _process = new SysProcess
+            {
+                StartInfo = startInfo,
+                EnableRaisingEvents = true
+            };
+
             Exited += (s, e) => _hasExited = true;
         }
 
@@ -71,12 +73,12 @@ namespace SJP.Process
 
         public bool HasStarted => _hasStarted;
 
-        public IProcessState CurrentState
+        public IProcessState State
         {
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException("The process has not yet been started. Cannot determine the current state of a non-running process.", nameof(CurrentState));
+                    throw new ArgumentException("The process has not yet been started. Cannot determine the current state of a non-running process.", nameof(State));
 
                 var adapter = new ProcessAdapter(_process);
                 return new ProcessState(adapter);
@@ -88,7 +90,7 @@ namespace SJP.Process
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException("The process has not yet been started. Cannot write standard input to a process that has not been started.", nameof(CurrentState));
+                    throw new ArgumentException("The process has not yet been started. Cannot write standard input to a process that has not been started.", nameof(State));
 
                 return _process.StandardInput.BaseStream;
             }
@@ -189,6 +191,6 @@ namespace SJP.Process
         private EventHandler<string> _errorHandler;
         private EventHandler<string> _outputHandler;
 
-        private readonly SysProcess _process = new SysProcess();
+        private readonly SysProcess _process;
     }
 }

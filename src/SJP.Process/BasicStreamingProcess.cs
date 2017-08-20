@@ -1,24 +1,17 @@
 ﻿using System;
 using System.IO;
 using SysProcess = System.Diagnostics.Process;
-using SysStartInfo = System.Diagnostics.ProcessStartInfo;
 
 namespace SJP.Process
 {
-    public class BasicStreamingProcess : IBasicStreamingProcess, IDisposable
+    public class BasicStreamingProcess : IProcess
     {
-        public BasicStreamingProcess(SysStartInfo startInfo)
+        public BasicStreamingProcess(IProcessConfiguration processConfig)
         {
-            if (startInfo == null)
-                throw new ArgumentNullException(nameof(startInfo));
+            if (processConfig == null)
+                throw new ArgumentNullException(nameof(processConfig));
 
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardInput = true;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.UseShellExecute = false;
-            startInfo.CreateNoWindow = true;
-
-            _process.StartInfo = startInfo;
+            _process.StartInfo = processConfig.ToStartInfo();
             _process.EnableRaisingEvents = true;
             Exited += (s, e) => _hasExited = true;
         }
