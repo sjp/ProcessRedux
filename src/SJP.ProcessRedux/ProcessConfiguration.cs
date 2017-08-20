@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     public class ProcessConfiguration : IProcessConfiguration
     {

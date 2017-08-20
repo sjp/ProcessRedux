@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     public class ProcessState : IProcessState
     {

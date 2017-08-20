@@ -1,31 +1,24 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using SysProcess = System.Diagnostics.Process;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
-    public class StringStreamingProcess : IStringStreamingProcess, IStringStreamingProcessAsync
+    public class DataStreamingProcess : IDataStreamingProcess, IDataStreamingProcessAsync
     {
-        public StringStreamingProcess(IProcessConfiguration processConfig, Encoding errorEncoding = null, Encoding outputEncoding = null)
+        public DataStreamingProcess(IProcessConfiguration processConfig)
         {
             if (processConfig == null)
                 throw new ArgumentNullException(nameof(processConfig));
 
-            var startInfo = processConfig.ToStartInfo();
-            startInfo.StandardErrorEncoding = errorEncoding;
-            startInfo.StandardOutputEncoding = outputEncoding;
-
-            _process = new SysProcess
-            {
-                StartInfo = startInfo,
-                EnableRaisingEvents = true
-            };
-
+            _process.StartInfo = processConfig.ToStartInfo();
+            _process.EnableRaisingEvents = true;
             Exited += (s, e) => _hasExited = true;
         }
+
+        public event EventHandler<byte[]> ErrorDataReceived;
+        public event EventHandler<byte[]> OutputDataReceived;
 
         public event EventHandler<int> Exited
         {
@@ -35,38 +28,9 @@ namespace SJP.Process
                     _process.Exited += OnExitedReceived;
                 _exitedHandler += value;
             }
-            remove => _exitedHandler -= value;
-        }
-
-        public event EventHandler<string> ErrorLineReceived
-        {
-            add
-            {
-                if (_errorHandler == null)
-                    _process.ErrorDataReceived += OnErrorReceived;
-                _errorHandler += value;
-            }
             remove
             {
-                _errorHandler -= value;
-                if (_errorHandler == null)
-                    _process.ErrorDataReceived -= OnErrorReceived;
-            }
-        }
-
-        public event EventHandler<string> OutputLineReceived
-        {
-            add
-            {
-                if (_outputHandler == null)
-                    _process.OutputDataReceived += OnOutputReceived;
-                _outputHandler += value;
-            }
-            remove
-            {
-                _outputHandler -= value;
-                if (_outputHandler == null)
-                    _process.OutputDataReceived -= OnOutputReceived;
+                _exitedHandler -= value;
             }
         }
 
@@ -79,7 +43,7 @@ namespace SJP.Process
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException($"The process has not yet been started. Cannot determine the current state of a non-running process. Use the { nameof(HasStarted) } property to find out whether a process has been started.", nameof(State));
+                    throw new ArgumentException("The process has not yet been started. Cannot determine the current state of a non-running process.", nameof(State));
 
                 var adapter = new ProcessAdapter(_process);
                 return new ProcessState(adapter);
@@ -91,7 +55,7 @@ namespace SJP.Process
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException($"The process has not yet been started. Cannot write standard input to a process that has not been started. Use the { nameof(HasStarted) } property to find out whether a process has been started.", nameof(State));
+                    throw new ArgumentException("The process has not yet been started. Cannot write standard input to a process that has not been started.", nameof(State));
 
                 return _process.StandardInput.BaseStream;
             }
@@ -109,8 +73,19 @@ namespace SJP.Process
             _process.Start();
             _hasStarted = true;
 
-            _process.BeginErrorReadLine();
-            _process.BeginOutputReadLine();
+            if (ErrorDataReceived != null)
+            {
+                Action<byte[]> errorHandler = data => ErrorDataReceived?.Invoke(this, data);
+                _errorReader = new AsyncStreamReader(_process.StandardError.BaseStream, errorHandler);
+                _errorReader.BeginRead();
+            }
+
+            if (OutputDataReceived != null)
+            {
+                Action<byte[]> outputHandler = data => OutputDataReceived?.Invoke(this, data);
+                _outputReader = new AsyncStreamReader(_process.StandardOutput.BaseStream, outputHandler);
+                _outputReader.BeginRead();
+            }
 
             return _hasStarted;
         }
@@ -158,22 +133,6 @@ namespace SJP.Process
             _exitedHandler?.Invoke(this, _process.ExitCode);
         }
 
-        protected void OnErrorReceived(object sender, DataReceivedEventArgs args)
-        {
-            if (args == null)
-                throw new ArgumentNullException(nameof(args));
-
-            _errorHandler?.Invoke(this, args.Data);
-        }
-
-        protected void OnOutputReceived(object sender, DataReceivedEventArgs args)
-        {
-            if (args == null)
-                throw new ArgumentNullException(nameof(args));
-
-            _outputHandler?.Invoke(this, args.Data);
-        }
-
         public void Dispose() => Dispose(true);
 
         protected virtual void Dispose(bool disposing)
@@ -184,6 +143,8 @@ namespace SJP.Process
             if (!disposing)
                 return;
 
+            _errorReader?.CancelOperation();
+            _outputReader?.CancelOperation();
             _process.Dispose();
             _disposed = true;
         }
@@ -193,9 +154,10 @@ namespace SJP.Process
         private bool _hasStarted;
 
         private EventHandler<int> _exitedHandler;
-        private EventHandler<string> _errorHandler;
-        private EventHandler<string> _outputHandler;
 
-        private readonly SysProcess _process;
+        private AsyncStreamReader _errorReader;
+        private AsyncStreamReader _outputReader;
+
+        private readonly SysProcess _process = new SysProcess();
     }
 }

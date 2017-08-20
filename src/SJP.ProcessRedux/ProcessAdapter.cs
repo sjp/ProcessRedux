@@ -4,7 +4,7 @@ using SysProcess = System.Diagnostics.Process;
 using SysStartInfo = System.Diagnostics.ProcessStartInfo;
 using SysDataReceivedEventArgs = System.Diagnostics.DataReceivedEventArgs;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     /// <summary>
     /// A wrapper for a <see cref="SysProcess"/> instance that implements <see cref="IFrameworkProcess"/>.

@@ -3,7 +3,7 @@ using System.IO;
 using SysStartInfo = System.Diagnostics.ProcessStartInfo;
 using SysDataReceivedEventArgs = System.Diagnostics.DataReceivedEventArgs;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     /// <summary>
     /// Defines properties, methods and events that represent the current state of the process.

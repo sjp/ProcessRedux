@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace SJP.Process.Tests
+namespace SJP.ProcessRedux.Tests
 {
     [TestFixture]
     public class UnitTest1

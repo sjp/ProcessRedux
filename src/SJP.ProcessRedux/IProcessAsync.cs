@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     /// <summary>
     /// Defines properties, methods and events that are common to processes on all platforms.

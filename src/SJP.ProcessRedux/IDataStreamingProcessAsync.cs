@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     /// <summary>
     /// Defines properties, methods and events that are common to processes on all platforms, but do not assume that output is textual.

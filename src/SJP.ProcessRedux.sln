@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SJP.Process", "SJP.Process\SJP.Process.csproj", "{4F6D5882-BE1D-4EAF-AA39-7FD643274D1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SJP.ProcessRedux", "SJP.ProcessRedux\SJP.ProcessRedux.csproj", "{4F6D5882-BE1D-4EAF-AA39-7FD643274D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJP.Process.ConsoleTest", "SJP.Process.ConsoleTest\SJP.Process.ConsoleTest.csproj", "{099EE08B-16C5-49FF-98AB-E2F30B9E2494}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SJP.ProcessRedux.ConsoleTest", "SJP.ProcessRedux.ConsoleTest\SJP.ProcessRedux.ConsoleTest.csproj", "{099EE08B-16C5-49FF-98AB-E2F30B9E2494}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJP.Process.Tests", "SJP.Process.Tests\SJP.Process.Tests.csproj", "{CC746CF4-C439-402E-BD41-5A8E03CD49EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SJP.ProcessRedux.Tests", "SJP.ProcessRedux.Tests\SJP.ProcessRedux.Tests.csproj", "{CC746CF4-C439-402E-BD41-5A8E03CD49EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

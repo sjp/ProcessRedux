@@ -3,7 +3,7 @@ using System.IO;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     public class ObservableStringStreamingProcess : IObservableStringStreamingProcess, IProcess
     {

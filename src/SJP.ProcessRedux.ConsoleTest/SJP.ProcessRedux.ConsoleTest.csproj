@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SJP.Process\SJP.Process.csproj" />
+    <ProjectReference Include="..\SJP.ProcessRedux\SJP.ProcessRedux.csproj" />
   </ItemGroup>
 
 </Project>

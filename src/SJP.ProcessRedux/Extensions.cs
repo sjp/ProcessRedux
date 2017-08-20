@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     internal static class NumericExtensions
     {

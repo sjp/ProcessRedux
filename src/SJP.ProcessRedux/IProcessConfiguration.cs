@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     /// <summary>
     /// Defines properties used to configure a process.

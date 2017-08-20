@@ -3,7 +3,7 @@ using System.IO;
 using SysStartInfo = System.Diagnostics.ProcessStartInfo;
 using SysDataReceivedEventArgs = System.Diagnostics.DataReceivedEventArgs;
 
-namespace SJP.Process
+namespace SJP.ProcessRedux
 {
     /// <summary>
     /// Defines properties, methods and events that are common to processes on all platforms, as implemented by <see cref="System.Diagnostics.Process"/>. Includes one extra property, <see cref="HasStarted"/>.

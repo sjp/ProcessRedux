@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 
-namespace SJP.Process.ConsoleTest
+namespace SJP.ProcessRedux.ConsoleTest
 {
     internal static class Program
     {
