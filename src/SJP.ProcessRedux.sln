@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SJP.ProcessRedux.ConsoleTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SJP.ProcessRedux.Tests", "SJP.ProcessRedux.Tests\SJP.ProcessRedux.Tests.csproj", "{CC746CF4-C439-402E-BD41-5A8E03CD49EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJP.ProcessRedux.Tests.ConsoleProcess", "SJP.ProcessRedux.Tests.ConsoleProcess\SJP.ProcessRedux.Tests.ConsoleProcess.csproj", "{9A5D1B22-556A-4E82-8E97-9BC018CDCC85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CC746CF4-C439-402E-BD41-5A8E03CD49EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC746CF4-C439-402E-BD41-5A8E03CD49EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC746CF4-C439-402E-BD41-5A8E03CD49EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A5D1B22-556A-4E82-8E97-9BC018CDCC85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A5D1B22-556A-4E82-8E97-9BC018CDCC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A5D1B22-556A-4E82-8E97-9BC018CDCC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A5D1B22-556A-4E82-8E97-9BC018CDCC85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,7 @@ namespace SJP.ProcessRedux
         /// Initializes a new instance of <see cref="FrameworkProcessAdapter"/>.
         /// </summary>
         /// <param name="process">A <see cref="Process"/> instance that has not yet been started.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="process"/> is <c>null</c>.</exception>
         public FrameworkProcessAdapter(Process process)
         {
             _process = process ?? throw new ArgumentNullException(nameof(process));
@@ -139,6 +140,7 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Gets or sets the properties used by the <see cref="Start()"/> method of the Process.
         /// </summary>
+        /// <exception cref="ArgumentNullException">The <see cref="ProcessStartInfo"/> provided was <c>null</c>.</exception>
         public ProcessStartInfo StartInfo
         {
             get => _process.StartInfo;

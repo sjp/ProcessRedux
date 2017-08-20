@@ -14,6 +14,7 @@ namespace SJP.ProcessRedux
         /// Initializes a new <see cref="ObservableStringStreamingProcess"/> instance.
         /// </summary>
         /// <param name="processConfig">Configuration used to determine how to start the process.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="processConfig"/> is <c>null</c>.</exception>
         public ObservableStringStreamingProcess(IProcessConfiguration processConfig)
         {
             if (processConfig == null)

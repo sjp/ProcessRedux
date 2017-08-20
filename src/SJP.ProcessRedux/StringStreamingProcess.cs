@@ -17,6 +17,7 @@ namespace SJP.ProcessRedux
         /// <param name="processConfig">Configuration used to determine how to start the process.</param>
         /// <param name="errorEncoding">The encoding to use when processing textual error output. The default, <c>null</c>, indicates that the default encoding should be used.</param>
         /// <param name="outputEncoding">The encoding to use when processing textual standard output. The default, <c>null</c>, indicates that the default encoding should be used.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="processConfig"/> is <c>null</c>.</exception>
         public StringStreamingProcess(IProcessConfiguration processConfig, Encoding errorEncoding = null, Encoding outputEncoding = null)
         {
             if (processConfig == null)
@@ -100,12 +101,13 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Retrieves the current state of the process. The process must be started for this operation to be valid, see <see cref="HasStarted"/>.
         /// </summary>
+        /// <exception cref="InvalidOperationException">The process has not started.</exception>
         public IProcessState State
         {
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException($"The process has not yet been started. Cannot determine the current state of a non-running process. Use the { nameof(HasStarted) } property to find out whether a process has been started.", nameof(State));
+                    throw new InvalidOperationException($"The process has not yet been started. Cannot determine the current state of a non-running process. Use the { nameof(HasStarted) } property to find out whether a process has been started.");
 
                 var adapter = new FrameworkProcessAdapter(_process);
                 return new ProcessState(adapter);
@@ -115,12 +117,13 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Gets a stream used to write the input of the application. The process must be started for this operation to be valid, see <see cref="HasStarted"/>.
         /// </summary>
+        /// <exception cref="InvalidOperationException">The process has not started.</exception>
         public Stream StandardInput
         {
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException($"The process has not yet been started. Cannot write standard input to a process that has not been started. Use the { nameof(HasStarted) } property to find out whether a process has been started.", nameof(State));
+                    throw new InvalidOperationException($"The process has not yet been started. Cannot write standard input to a process that has not been started. Use the { nameof(HasStarted) } property to find out whether a process has been started.");
 
                 return _process.StandardInput.BaseStream;
             }

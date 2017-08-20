@@ -13,6 +13,7 @@ namespace SJP.ProcessRedux
         /// Initializes a new instance of <see cref="ProcessConfiguration"/>.
         /// </summary>
         /// <param name="processFileName">A path to an executable.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="processFileName"/> is <c>null</c>, empty or whitespace.</exception>
         public ProcessConfiguration(string processFileName)
         {
             if (processFileName.IsNullOrWhiteSpace())
@@ -43,6 +44,7 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Gets or sets the application to start.
         /// </summary>
+        /// <exception cref="ArgumentNullException">The filename provided was either <c>null</c>, empty or whitespace.</exception>
         public string FileName
         {
             get => _fileName;

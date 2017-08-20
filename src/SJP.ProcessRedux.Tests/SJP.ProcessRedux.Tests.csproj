@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SJP.ProcessRedux.Tests.ConsoleProcess\SJP.ProcessRedux.Tests.ConsoleProcess.csproj" />
     <ProjectReference Include="..\SJP.ProcessRedux\SJP.ProcessRedux.csproj" />
   </ItemGroup>
 

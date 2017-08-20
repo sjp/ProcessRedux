@@ -11,6 +11,8 @@ namespace SJP.ProcessRedux
         /// Initializes a new instance of <see cref="ProcessState"/>.
         /// </summary>
         /// <param name="process">A system framework process to retrieve state from. The process must have started for state to be retrieved.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="process"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="process"/> has not yet started.</exception>
         public ProcessState(IFrameworkProcess process)
         {
             if (process == null)

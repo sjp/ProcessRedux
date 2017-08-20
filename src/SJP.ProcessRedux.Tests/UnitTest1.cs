@@ -1,14 +1,14 @@
-using NUnit.Framework;
+using System.IO;
+using System.Reflection;
 
 namespace SJP.ProcessRedux.Tests
 {
-    [TestFixture]
-    public class UnitTest1
+    public class ProcessTest
     {
-        [Test]
-        public void TestMethod1()
-        {
-            Assert.AreEqual(1, 1);
-        }
+        protected static string TestProcessFilePath => Path.Combine(CurrentDirectory, TestProcessExecutableFile);
+
+        private static string CurrentDirectory => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+        private const string TestProcessExecutableFile = "SJP.ProcessRedux.Tests.ConsoleProcess.exe";
     }
 }

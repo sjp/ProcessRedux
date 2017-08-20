@@ -14,6 +14,7 @@ namespace SJP.ProcessRedux
         /// Initializes a new <see cref="DataStreamingProcess"/> instance.
         /// </summary>
         /// <param name="processConfig">Configuration used to determine how to start the process.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="processConfig"/> is <c>null</c>.</exception>
         public DataStreamingProcess(IProcessConfiguration processConfig)
         {
             if (processConfig == null)
@@ -64,12 +65,13 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Retrieves the current state of the process. The process must be started for this operation to be valid, see <see cref="HasStarted"/>.
         /// </summary>
+        /// <exception cref="InvalidOperationException">The process has not started.</exception>
         public IProcessState State
         {
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException("The process has not yet been started. Cannot determine the current state of a non-running process.", nameof(State));
+                    throw new InvalidOperationException("The process has not yet been started. Cannot determine the current state of a non-running process.");
 
                 var adapter = new FrameworkProcessAdapter(_process);
                 return new ProcessState(adapter);
@@ -79,12 +81,13 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Gets a stream used to write the input of the application. The process must be started for this operation to be valid, see <see cref="HasStarted"/>.
         /// </summary>
+        /// <exception cref="InvalidOperationException">The process has not started.</exception>
         public Stream StandardInput
         {
             get
             {
                 if (!_hasStarted)
-                    throw new ArgumentException("The process has not yet been started. Cannot write standard input to a process that has not been started.", nameof(State));
+                    throw new InvalidOperationException("The process has not yet been started. Cannot write standard input to a process that has not been started.");
 
                 return _process.StandardInput.BaseStream;
             }
