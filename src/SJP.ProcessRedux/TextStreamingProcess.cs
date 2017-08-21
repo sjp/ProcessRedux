@@ -9,16 +9,16 @@ namespace SJP.ProcessRedux
     /// <summary>
     /// Represents a process that streams textual output.
     /// </summary>
-    public class StringStreamingProcess : IStringStreamingProcess, IStringStreamingProcessAsync
+    public class TextStreamingProcess : ITextStreamingProcess, ITextStreamingProcessAsync
     {
         /// <summary>
-        /// Initializes a new <see cref="StringStreamingProcess"/> instance.
+        /// Initializes a new <see cref="TextStreamingProcess"/> instance.
         /// </summary>
         /// <param name="processConfig">Configuration used to determine how to start the process.</param>
         /// <param name="errorEncoding">The encoding to use when processing textual error output. The default, <c>null</c>, indicates that the default encoding should be used.</param>
         /// <param name="outputEncoding">The encoding to use when processing textual standard output. The default, <c>null</c>, indicates that the default encoding should be used.</param>
         /// <exception cref="ArgumentNullException"><paramref name="processConfig"/> is <c>null</c>.</exception>
-        public StringStreamingProcess(IProcessConfiguration processConfig, Encoding errorEncoding = null, Encoding outputEncoding = null)
+        public TextStreamingProcess(IProcessConfiguration processConfig, Encoding errorEncoding = null, Encoding outputEncoding = null)
         {
             if (processConfig == null)
                 throw new ArgumentNullException(nameof(processConfig));
@@ -159,7 +159,7 @@ namespace SJP.ProcessRedux
         }
 
         /// <summary>
-        /// Instructs the <see cref="StringStreamingProcess"/> component to wait indefinitely for the associated process to exit.
+        /// Instructs the <see cref="TextStreamingProcess"/> component to wait indefinitely for the associated process to exit.
         /// </summary>
         /// <returns>The value that the associated process specified when it terminated.</returns>
         public int WaitForExit()
@@ -169,13 +169,13 @@ namespace SJP.ProcessRedux
         }
 
         /// <summary>
-        /// Instructs the <see cref="StringStreamingProcess"/> component to wait indefinitely for the associated process to exit.
+        /// Instructs the <see cref="TextStreamingProcess"/> component to wait indefinitely for the associated process to exit.
         /// </summary>
         /// <returns>A task that represents the asynchronous wait operation.</returns>
         public Task<int> WaitForExitAsync() => Task.Run(() => WaitForExit());
 
         /// <summary>
-        /// Instructs the <see cref="StringStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
+        /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
         /// </summary>
         /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
         /// <param name="exitCode">The value that the associated process specified when it terminated. Defaults to <c>0</c> when the timeout expired before the process exited.</param>
@@ -189,7 +189,7 @@ namespace SJP.ProcessRedux
         }
 
         /// <summary>
-        /// Instructs the <see cref="StringStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
+        /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
         /// </summary>
         /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
         /// <returns>A tuple of length two. The component returns <c>true</c> if the associated process has exited; otherwise, <c>false</c>. The second component is the value that the associated process specified when it terminated, defaults to <c>0</c> when the timeout expired before the process exited.</returns>
@@ -200,7 +200,7 @@ namespace SJP.ProcessRedux
         }
 
         /// <summary>
-        /// Instructs the <see cref="StringStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
+        /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
         /// </summary>
         /// <param name="timeout">The amount of time to wait for the associated process to exit. The maximum is the largest possible value for milliseconds of a 32-bit integer, which represents infinity to the operating system. Any timespan larger than a 32-bit millisecond timeout is assumed to be infinite.</param>
         /// <param name="exitCode">The value that the associated process specified when it terminated. Defaults to <c>0</c> when the timeout expired before the process exited.</param>
@@ -214,7 +214,7 @@ namespace SJP.ProcessRedux
         }
 
         /// <summary>
-        /// Instructs the <see cref="StringStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
+        /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
         /// </summary>
         /// <param name="timeout">The amount of time to wait for the associated process to exit. The maximum is the largest possible value for milliseconds of a 32-bit integer, which represents infinity to the operating system. Any timespan larger than a 32-bit millisecond timeout is assumed to be infinite.</param>
         /// <returns>A tuple of length two. The component returns <c>true</c> if the associated process has exited; otherwise, <c>false</c>. The second component is the value that the associated process specified when it terminated, defaults to <c>0</c> when the timeout expired before the process exited.</returns>
@@ -278,12 +278,12 @@ namespace SJP.ProcessRedux
         }
 
         /// <summary>
-        /// Releases resources used by the current <see cref="StringStreamingProcess"/> instance.
+        /// Releases resources used by the current <see cref="TextStreamingProcess"/> instance.
         /// </summary>
         public void Dispose() => Dispose(true);
 
         /// <summary>
-        /// Releases resources used by the current <see cref="StringStreamingProcess"/> instance.
+        /// Releases resources used by the current <see cref="TextStreamingProcess"/> instance.
         /// </summary>
         /// <param name="disposing"><b>True</b> if managed resources are to be disposed. <b>False</b> will not dispose any resources.</param>
         protected virtual void Dispose(bool disposing)

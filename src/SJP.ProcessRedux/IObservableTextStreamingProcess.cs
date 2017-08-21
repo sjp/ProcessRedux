@@ -5,7 +5,7 @@ namespace SJP.ProcessRedux
     /// <summary>
     /// Defines properties, methods and events that are common to processes on all platforms, and assumes that input and output is textual.
     /// </summary>
-    public interface IObservableStringStreamingProcess : IProcessAsync
+    public interface IObservableTextStreamingProcess : IProcessAsync
     {
         /// <summary>
         /// Provides a subscriptions to events when a process writes a line to its redirected standard error stream.

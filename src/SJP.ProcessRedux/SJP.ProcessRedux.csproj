@@ -10,7 +10,7 @@
     <Authors>Simon Potter</Authors>
     <Company />
     <Product />
-    <Description>Simple </Description>
+    <Description>Simple event-driven process handling for .NET</Description>
     <Copyright>Copyright © Simon Potter 2017</Copyright>
     <PackageLicenseUrl>https://raw.github.com/sjp/ProcessRedux/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/sjp/ProcessRedux</PackageProjectUrl>

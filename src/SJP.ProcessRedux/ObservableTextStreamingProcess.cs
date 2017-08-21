@@ -8,19 +8,19 @@ namespace SJP.ProcessRedux
     /// <summary>
     /// Represents a process that provides subscriptions to its textual output.
     /// </summary>
-    public class ObservableStringStreamingProcess : IObservableStringStreamingProcess, IProcess
+    public class ObservableTextStreamingProcess : IObservableTextStreamingProcess, IProcess
     {
         /// <summary>
-        /// Initializes a new <see cref="ObservableStringStreamingProcess"/> instance.
+        /// Initializes a new <see cref="ObservableTextStreamingProcess"/> instance.
         /// </summary>
         /// <param name="processConfig">Configuration used to determine how to start the process.</param>
         /// <exception cref="ArgumentNullException"><paramref name="processConfig"/> is <c>null</c>.</exception>
-        public ObservableStringStreamingProcess(IProcessConfiguration processConfig)
+        public ObservableTextStreamingProcess(IProcessConfiguration processConfig)
         {
             if (processConfig == null)
                 throw new ArgumentNullException(nameof(processConfig));
 
-            _process = new StringStreamingProcess(processConfig);
+            _process = new TextStreamingProcess(processConfig);
             Exited += (s, e) => _hasExited = true;
             ErrorLines = Observable
                 .FromEventPattern<string>(h => _process.ErrorLineReceived += h, h => _process.ErrorLineReceived -= h)
@@ -153,12 +153,12 @@ namespace SJP.ProcessRedux
         }
 
         /// <summary>
-        /// Releases resources used by the current <see cref="ObservableStringStreamingProcess"/> instance.
+        /// Releases resources used by the current <see cref="ObservableTextStreamingProcess"/> instance.
         /// </summary>
         public void Dispose() => Dispose(true);
 
         /// <summary>
-        /// Releases resources used by the current <see cref="ObservableStringStreamingProcess"/> instance.
+        /// Releases resources used by the current <see cref="ObservableTextStreamingProcess"/> instance.
         /// </summary>
         /// <param name="disposing"><b>True</b> if managed resources are to be disposed. <b>False</b> will not dispose any resources.</param>
         protected virtual void Dispose(bool disposing)
@@ -178,6 +178,6 @@ namespace SJP.ProcessRedux
         private bool _hasExited;
         private EventHandler<int> _exitedHandler;
 
-        private readonly StringStreamingProcess _process;
+        private readonly TextStreamingProcess _process;
     }
 }
