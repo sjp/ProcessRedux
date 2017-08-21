@@ -8,9 +8,7 @@ namespace SJP.ProcessRedux.ConsoleTest
         private static void Main(string[] args)
         {
             if (args == null)
-            {
                 throw new ArgumentNullException(nameof(args));
-            }
 
             FFmpeg.Convert();
             Console.WriteLine("Press any key to exit...");

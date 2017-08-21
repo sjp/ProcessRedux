@@ -73,8 +73,7 @@ namespace SJP.ProcessRedux
                 if (!_hasStarted)
                     throw new InvalidOperationException("The process has not yet been started. Cannot determine the current state of a non-running process.");
 
-                var adapter = new FrameworkProcessAdapter(_process);
-                return new ProcessState(adapter);
+                return new ProcessState(_process);
             }
         }
 
@@ -244,6 +243,6 @@ namespace SJP.ProcessRedux
         private AsyncStreamReader _errorReader;
         private AsyncStreamReader _outputReader;
 
-        private readonly Process _process = new Process();
+        private readonly IFrameworkProcess _process = new FrameworkProcessAdapter(new Process());
     }
 }

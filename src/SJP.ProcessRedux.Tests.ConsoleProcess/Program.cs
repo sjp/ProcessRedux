@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace SJP.ProcessRedux.Tests.ConsoleProcess
 {
@@ -10,6 +11,9 @@ namespace SJP.ProcessRedux.Tests.ConsoleProcess
         {
             if (args == null || args.Length == 0)
                 return 1;
+
+            if (args.Any(a => a == Constants.Arguments.Wait5Seconds))
+                Thread.Sleep(5000);
 
             if (args.Any(a => a == Constants.Arguments.ReadStdInText))
             {
@@ -77,6 +81,8 @@ namespace SJP.ProcessRedux.Tests.ConsoleProcess
             public static string WriteStdOutText => "stdoutText";
 
             public static string WriteStdErrText => "stderrText";
+
+            public static string Wait5Seconds => "wait5s";
         }
 
         public static class Data

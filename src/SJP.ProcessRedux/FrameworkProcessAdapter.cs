@@ -55,7 +55,11 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Gets or sets whether the <see cref="Exited"/> event should be raised when the process terminates.
         /// </summary>
-        public bool EnableRaisingEvents => _process.EnableRaisingEvents;
+        public bool EnableRaisingEvents
+        {
+            get => _process.EnableRaisingEvents;
+            set => _process.EnableRaisingEvents = value;
+        }
 
         /// <summary>
         /// Gets the value that the associated process specified when it terminated.

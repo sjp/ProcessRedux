@@ -27,11 +27,12 @@ namespace SJP.ProcessRedux
             startInfo.StandardErrorEncoding = errorEncoding;
             startInfo.StandardOutputEncoding = outputEncoding;
 
-            _process = new Process
+            var process = new Process
             {
                 StartInfo = startInfo,
                 EnableRaisingEvents = true
             };
+            _process = new FrameworkProcessAdapter(process);
 
             Exited += (s, e) => _hasExited = true;
         }
@@ -109,8 +110,7 @@ namespace SJP.ProcessRedux
                 if (!_hasStarted)
                     throw new InvalidOperationException($"The process has not yet been started. Cannot determine the current state of a non-running process. Use the { nameof(HasStarted) } property to find out whether a process has been started.");
 
-                var adapter = new FrameworkProcessAdapter(_process);
-                return new ProcessState(adapter);
+                return new ProcessState(_process);
             }
         }
 
@@ -306,6 +306,6 @@ namespace SJP.ProcessRedux
         private EventHandler<string> _errorHandler;
         private EventHandler<string> _outputHandler;
 
-        private readonly Process _process;
+        private readonly IFrameworkProcess _process;
     }
 }
