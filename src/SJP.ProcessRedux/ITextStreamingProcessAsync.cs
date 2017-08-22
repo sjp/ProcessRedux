@@ -3,7 +3,7 @@
 namespace SJP.ProcessRedux
 {
     /// <summary>
-    /// Defines properties, methods and events that are common to processes on all platforms, and assumes that input and output is textual.
+    /// Defines properties, methods and events that are common to processes on all platforms, and assumes that output is textual.
     /// </summary>
     public interface ITextStreamingProcessAsync : IProcessAsync
     {

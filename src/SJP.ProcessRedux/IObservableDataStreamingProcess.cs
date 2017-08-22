@@ -3,7 +3,7 @@
 namespace SJP.ProcessRedux
 {
     /// <summary>
-    /// Defines properties, methods and events that are common to processes on all platforms, but do not assume that output is textual.
+    /// Defines properties, methods and events that are common to processes on all platforms, where output is provided directly as bytes.
     /// </summary>
     public interface IObservableDataStreamingProcess : IProcessAsync
     {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace SJP.ProcessRedux
 {
     /// <summary>
-    /// Defines properties, methods and events that are common to processes on all platforms.
+    /// Defines properties, methods and events that are common to processes on all platforms. Additionally provides asynchronous methods for interacting with processes.
     /// </summary>
     public interface IProcessAsync : IDisposable
     {
