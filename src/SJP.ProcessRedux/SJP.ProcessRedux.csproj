@@ -6,7 +6,7 @@
     <!--<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>-->
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <Authors>Simon Potter</Authors>
     <Company />
     <Product />
@@ -32,7 +32,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' Or '$(TargetFramework)' == 'netstandard1.4' ">
-    <DefineConstants>$(DefineConstants);NO_INVARIANT_CULTURE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NO_INVARIANT_CULTURE;NO_SYS_EXCEPTION</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' Or '$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'netcoreapp2.0' Or '$(TargetFramework)' == 'netstandard2.0' ">
