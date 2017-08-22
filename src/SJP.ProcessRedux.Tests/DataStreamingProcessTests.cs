@@ -53,7 +53,6 @@ namespace SJP.ProcessRedux.Tests
                 Assert.IsFalse(dataProcess.HasExited);
         }
 
-        /*
         [Test]
         public void Exited_WhenProcessExits_ReturnsExitCode()
         {
@@ -96,6 +95,6 @@ namespace SJP.ProcessRedux.Tests
                 dataProcess.WaitForExit();
                 Assert.IsTrue(dataProcess.HasExited);
             }
-        }*/
+        }
     }
 }

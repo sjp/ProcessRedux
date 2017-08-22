@@ -5,6 +5,7 @@ using System.Threading;
 
 namespace SJP.ProcessRedux.Tests.ConsoleProcess
 {
+    // this not intended to be run directly, only run when embedded into a test assembly
     internal static class Program
     {
         private static int Main(string[] args)
