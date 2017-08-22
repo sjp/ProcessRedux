@@ -282,7 +282,7 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Releases resources used by the current <see cref="FrameworkProcessAdapter"/> instance.
         /// </summary>
-        /// <param name="disposing"><b>True</b> if managed resources are to be disposed. <b>False</b> will not dispose any resources.</param>
+        /// <param name="disposing"><c>true</c> if managed resources are to be disposed. <c>false</c> will not dispose any resources.</param>
         private void Dispose(bool disposing)
         {
             if (_disposed)
