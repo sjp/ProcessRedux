@@ -16,11 +16,9 @@ namespace SJP.ProcessRedux
                 throw new ArgumentNullException(nameof(stream));
             if (!stream.CanRead)
                 throw new ArgumentException("Stream must be readable.", nameof(stream));
-            if (callback == null)
-                throw new ArgumentNullException(nameof(callback));
 
             _stream = stream;
-            _callBack = callback;
+            _callBack = callback ?? throw new ArgumentNullException(nameof(callback));
             _byteBuffer = new byte[DefaultBufferSize];
             _cts = new CancellationTokenSource();
         }

@@ -30,7 +30,6 @@ namespace SJP.ProcessRedux.Tests
                 resource.CopyTo(writer);
         }
 
-
         private const string TestProcessExecutableFile = "SJP.ProcessRedux.Tests.ConsoleProcess.exe";
 
         protected static class Constants

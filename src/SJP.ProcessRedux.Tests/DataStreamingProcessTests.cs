@@ -27,11 +27,9 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void State_WhenNotExited_ThrowsInvalidOperationException()
+        public void State_WhenExited_ThrowsInvalidOperationException()
         {
-            const string fileName = "notepad.exe";
-            var config = new ProcessConfiguration(fileName);
-
+            var config = new ProcessConfiguration(TestProcessFilePath);
             using (var dataProcess = new DataStreamingProcess(config))
             {
                 dataProcess.Start();
@@ -54,15 +52,13 @@ namespace SJP.ProcessRedux.Tests
         [Test]
         public void StandardInput_WhenExited_ThrowsInvalidOperationException()
         {
-            const string fileName = "notepad.exe";
-            var config = new ProcessConfiguration(fileName);
-
-            using (var dataProcess = new DataStreamingProcess(config))
+            var config = new ProcessConfiguration(TestProcessFilePath);
+            using (var textProcess = new DataStreamingProcess(config))
             {
-                dataProcess.Start();
+                textProcess.Start();
                 Task.Delay(100).Wait();
-                Assert.Throws<InvalidOperationException>(() => { var x = dataProcess.StandardInput; });
-                dataProcess.WaitForExit();
+                Assert.Throws<InvalidOperationException>(() => { var x = textProcess.StandardInput; });
+                textProcess.WaitForExit();
             }
         }
 
@@ -82,8 +78,9 @@ namespace SJP.ProcessRedux.Tests
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
 
+            // using aggregate, but it really constains invalid op
             using (var dataProcess = new DataStreamingProcess(config))
-                Assert.Throws<InvalidOperationException>(() => dataProcess.KillAsync().Wait());
+                Assert.Throws<AggregateException>(() => dataProcess.KillAsync().Wait());
         }
 
         [Test]
@@ -220,7 +217,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public async void WaitForExitAsync_WhenCalled_WaitsForExitAsynchronouslyAndReturnsExitCode()
+        public async Task WaitForExitAsync_WhenCalled_WaitsForExitAsynchronouslyAndReturnsExitCode()
         {
             // expect from the process when nothing given to have exit code of 1
             const int errorCode = 1;
