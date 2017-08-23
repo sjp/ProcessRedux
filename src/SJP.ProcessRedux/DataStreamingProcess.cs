@@ -274,7 +274,27 @@ namespace SJP.ProcessRedux
             return WaitForExit(intMs);
         }
 
-        private void OnExitedReceived(object sender, EventArgs args) => OnExitedReceived(_process.ExitCode);
+        private void OnExitedReceived(object sender, EventArgs args)
+        {
+            // the exit code will not be set yet, wait until it is, then invoke asynchronously
+            Task.Run(() =>
+            {
+                int? exitCode = null;
+                while (true)
+                {
+                    try
+                    {
+                        exitCode = _process.ExitCode;
+                        break;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Task.Delay(5);
+                    }
+                }
+                OnExitedReceived(exitCode.Value);
+            });
+        }
 
         /// <summary>
         /// Raises the <see cref="Exited"/> event.
