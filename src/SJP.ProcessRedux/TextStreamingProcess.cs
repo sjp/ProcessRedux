@@ -100,30 +100,41 @@ namespace SJP.ProcessRedux
         public bool HasStarted => _hasStarted;
 
         /// <summary>
-        /// Retrieves the current state of the process. The process must be started for this operation to be valid, see <see cref="HasStarted"/>.
+        /// Retrieves the current state of the process. The process must be running for this operation to be valid, see <see cref="HasStarted"/> and <see cref="HasExited"/>.
         /// </summary>
-        /// <exception cref="InvalidOperationException">The process has not started.</exception>
+        /// <exception cref="InvalidOperationException">The process has not started, or has already exited.</exception>
         public IProcessState State
         {
             get
             {
                 if (!_hasStarted)
-                    throw new InvalidOperationException($"The process has not yet been started. Cannot determine the current state of a non-running process. Use the { nameof(HasStarted) } property to find out whether a process has been started.");
+                    throw new InvalidOperationException("The process has not yet been started. Cannot determine the current state of a non-running process.");
+                if (_hasExited)
+                    throw new InvalidOperationException("The process has exited. Cannot determine the current state of a non-running process.");
 
-                return new ProcessState(_process);
+                try
+                {
+                    return new ProcessState(_process);
+                }
+                catch (InvalidOperationException)
+                {
+                    throw new InvalidOperationException("The process has exited. Cannot determine the current state of a non-running process.");
+                }
             }
         }
 
         /// <summary>
-        /// Gets a stream used to write the input of the application. The process must be started for this operation to be valid, see <see cref="HasStarted"/>.
+        /// Gets a stream used to write the input of the application. The process must be running for this operation to be valid, see <see cref="HasStarted"/> and <see cref="HasExited"/>.
         /// </summary>
-        /// <exception cref="InvalidOperationException">The process has not started.</exception>
+        /// <exception cref="InvalidOperationException">The process has not started, or has already exited.</exception>
         public Stream StandardInput
         {
             get
             {
                 if (!_hasStarted)
                     throw new InvalidOperationException($"The process has not yet been started. Cannot write standard input to a process that has not been started. Use the { nameof(HasStarted) } property to find out whether a process has been started.");
+                if (_hasExited)
+                    throw new InvalidOperationException($"The process has exited. Cannot write standard input to a process that has exited. Use the { nameof(HasExited) } property to find out whether a process has exited.");
 
                 return _process.StandardInput.BaseStream;
             }
@@ -138,6 +149,7 @@ namespace SJP.ProcessRedux
                 return;
 
             _process.Kill();
+            _hasExited = true;
         }
 
         /// <summary>

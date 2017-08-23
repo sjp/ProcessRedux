@@ -91,9 +91,9 @@ namespace SJP.ProcessRedux
         public string MachineName => _process.MachineName;
 
         /// <summary>
-        /// Gets the amount of nonpaged system memory, in bytes, allocated for the associated process.
+        /// Gets the amount of paged memory, in bytes, allocated for the associated process.
         /// </summary>
-        public long NonpagedSystemMemorySize => _process.NonpagedSystemMemorySize64;
+        public long PagedMemorySize => _process.PagedMemorySize64;
 
         /// <summary>
         /// Gets the amount of pageable system memory, in bytes, allocated for the associated process.

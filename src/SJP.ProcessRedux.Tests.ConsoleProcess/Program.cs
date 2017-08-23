@@ -13,6 +13,9 @@ namespace SJP.ProcessRedux.Tests.ConsoleProcess
             if (args == null || args.Length == 0)
                 return 1;
 
+            if (args.Any(a => a == Constants.Arguments.Wait1Second))
+                Thread.Sleep(1000);
+
             if (args.Any(a => a == Constants.Arguments.Wait5Seconds))
                 Thread.Sleep(5000);
 
@@ -82,6 +85,8 @@ namespace SJP.ProcessRedux.Tests.ConsoleProcess
             public static string WriteStdOutText => "stdoutText";
 
             public static string WriteStdErrText => "stderrText";
+
+            public static string Wait1Second => "wait1s";
 
             public static string Wait5Seconds => "wait5s";
         }

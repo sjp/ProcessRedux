@@ -8,16 +8,6 @@ namespace SJP.ProcessRedux
     public interface IProcessState
     {
         /// <summary>
-        /// Gets the value that the associated process specified when it terminated.
-        /// </summary>
-        int ExitCode { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the associated process has been terminated.
-        /// </summary>
-        bool HasExited { get; }
-
-        /// <summary>
         /// Gets the unique identifier for the associated process.
         /// </summary>
         int Id { get; }
@@ -28,9 +18,9 @@ namespace SJP.ProcessRedux
         string MachineName { get; }
 
         /// <summary>
-        /// Gets the amount of nonpaged system memory, in bytes, allocated for the associated process.
+        /// Gets the amount of pageable system memory, in bytes, allocated for the associated process.
         /// </summary>
-        long NonpagedSystemMemorySize { get; }
+        long PagedMemorySize { get; }
 
         /// <summary>
         /// Gets the amount of pageable system memory, in bytes, allocated for the associated process.

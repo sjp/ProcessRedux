@@ -21,11 +21,9 @@ namespace SJP.ProcessRedux
                 throw new ArgumentException("The given process has not yet been started. Cannot determine the current state of a non-running process.", nameof(process));
 
             process.Refresh();
-            ExitCode = process.HasExited ? process.ExitCode : 0;
-            HasExited = process.HasExited;
             Id = process.Id;
             MachineName = process.MachineName;
-            NonpagedSystemMemorySize = process.NonpagedSystemMemorySize;
+            PagedMemorySize = process.PagedMemorySize;
             PagedSystemMemorySize = process.PagedSystemMemorySize;
             PeakPagedMemorySize = process.PeakPagedMemorySize;
             PeakVirtualMemorySize = process.PeakVirtualMemorySize;
@@ -40,16 +38,6 @@ namespace SJP.ProcessRedux
         }
 
         /// <summary>
-        /// Gets the value that the associated process specified when it terminated.
-        /// </summary>
-        public int ExitCode { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the associated process has been terminated.
-        /// </summary>
-        public bool HasExited { get; }
-
-        /// <summary>
         /// Gets the unique identifier for the associated process.
         /// </summary>
         public int Id { get; }
@@ -60,9 +48,9 @@ namespace SJP.ProcessRedux
         public string MachineName { get; }
 
         /// <summary>
-        /// Gets the amount of nonpaged system memory, in bytes, allocated for the associated process.
+        /// Gets the amount of paged memory, in bytes, allocated for the associated process.
         /// </summary>
-        public long NonpagedSystemMemorySize { get; }
+        public long PagedMemorySize { get; }
 
         /// <summary>
         /// Gets the amount of pageable system memory, in bytes, allocated for the associated process.
