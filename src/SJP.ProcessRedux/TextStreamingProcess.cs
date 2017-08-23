@@ -322,7 +322,8 @@ namespace SJP.ProcessRedux
 
         private void OnErrorReceived(object sender, DataReceivedEventArgs args)
         {
-            if (args == null)
+            var line = args?.Data;
+            if (line == null)
                 return;
 
             OnErrorReceived(args.Data);
@@ -330,7 +331,8 @@ namespace SJP.ProcessRedux
 
         private void OnOutputReceived(object sender, DataReceivedEventArgs args)
         {
-            if (args == null)
+            var line = args?.Data;
+            if (line == null)
                 return;
 
             OnOutputReceived(args.Data);
