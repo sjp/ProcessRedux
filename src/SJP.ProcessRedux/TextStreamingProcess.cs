@@ -298,11 +298,7 @@ namespace SJP.ProcessRedux
             return WaitForExit(intMs);
         }
 
-        private void OnExitedReceived(object sender, EventArgs args)
-        {
-            _process.Refresh();
-            OnExitedReceived(_process.ExitCode);
-        }
+        private void OnExitedReceived(object sender, EventArgs args) => OnExitedReceived(_process.ExitCode);
 
         private void OnErrorReceived(object sender, DataReceivedEventArgs args)
         {

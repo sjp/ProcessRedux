@@ -65,7 +65,31 @@ namespace SJP.ProcessRedux
         /// Gets the value that the associated process specified when it terminated.
         /// </summary>
         /// <exception cref="InvalidOperationException">The process has not exited.</exception>
-        public int ExitCode => _process.ExitCode;
+        public int ExitCode
+        {
+            get
+            {
+                const int maxRetries = 5;
+                var retries = 1;
+                while (true)
+                {
+                    try
+                    {
+                        _process.Refresh();
+                        return _process.ExitCode;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        if (retries >= maxRetries)
+                            throw;
+
+                        retries++;
+                    }
+                }
+
+                throw new InvalidOperationException("The process has not yet exited.");
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the associated process has been terminated.
