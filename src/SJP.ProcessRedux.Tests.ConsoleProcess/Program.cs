@@ -42,24 +42,33 @@ namespace SJP.ProcessRedux.Tests.ConsoleProcess
             if (args.Any(a => a == Constants.Arguments.WriteStdOutData))
             {
                 using (var binWriter = new BinaryWriter(Console.OpenStandardOutput()))
+                {
                     binWriter.Write(Constants.Data.DataCafeBabe);
+                    binWriter.Flush();
+                }
             }
 
             if (args.Any(a => a == Constants.Arguments.WriteStdErrData))
             {
                 using (var binWriter = new BinaryWriter(Console.OpenStandardError()))
+                {
                     binWriter.Write(Constants.Data.DataDeadBeef);
+                    binWriter.Flush();
+                }
                 result = ExitFailure;
             }
 
             if (args.Any(a => a == Constants.Arguments.WriteStdOutText))
             {
-                Console.Error.WriteLine(Constants.Data.StdOutText);
+                Console.Out.WriteLine(Constants.Data.StdOutText);
+                Console.Out.Flush();
             }
+            Console.WriteLine(Constants.Data.StdOutText);
 
             if (args.Any(a => a == Constants.Arguments.WriteStdErrText))
             {
                 Console.Error.WriteLine(Constants.Data.StdErrText);
+                Console.Error.Flush();
                 result = ExitFailure;
             }
 

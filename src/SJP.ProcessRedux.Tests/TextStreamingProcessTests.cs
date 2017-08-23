@@ -117,6 +117,7 @@ namespace SJP.ProcessRedux.Tests
                 textProcess.WaitForExit();
             }
 
+            Task.Delay(1000).Wait();
             Assert.AreEqual(errorCode, result);
         }
 
@@ -142,6 +143,7 @@ namespace SJP.ProcessRedux.Tests
             {
                 textProcess.Start();
                 textProcess.WaitForExit();
+                Task.Delay(1000).Wait();
                 Assert.IsTrue(textProcess.HasExited);
             }
         }
@@ -357,9 +359,10 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.ErrorLineReceived += (s, line) => result.Append(line);
                 dataProcess.Start();
-                dataProcess.WaitForExit(100);
+                dataProcess.WaitForExit();
             }
 
+            Task.Delay(1000).Wait();
             var resultStr = result.ToString();
             Assert.AreEqual(expected, resultStr);
         }
@@ -375,9 +378,10 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.OutputLineReceived += (s, line) => result.Append(line);
                 dataProcess.Start();
-                dataProcess.WaitForExit(100);
+                dataProcess.WaitForExit();
             }
 
+            Task.Delay(1000).Wait();
             var resultStr = result.ToString();
             Assert.AreEqual(expected, resultStr);
         }
