@@ -70,10 +70,11 @@ namespace SJP.ProcessRedux
         {
             get
             {
+                const string exitedErrorMessage = "The process has exited. Cannot determine the current state of a non-running process.";
                 if (!_hasStarted)
                     throw new InvalidOperationException("The process has not yet been started. Cannot determine the current state of a non-running process.");
                 if (_hasExited)
-                    throw new InvalidOperationException("The process has exited. Cannot determine the current state of a non-running process.");
+                    throw new InvalidOperationException(exitedErrorMessage);
 
                 try
                 {
@@ -81,7 +82,7 @@ namespace SJP.ProcessRedux
                 }
                 catch (InvalidOperationException)
                 {
-                    throw new InvalidOperationException("The process has exited. Cannot determine the current state of a non-running process.");
+                    throw new InvalidOperationException(exitedErrorMessage);
                 }
             }
         }

@@ -83,6 +83,7 @@ namespace SJP.ProcessRedux
                 return;
 
             _process.Kill();
+            _hasExited = true;
         }
 
         /// <summary>

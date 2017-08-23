@@ -3,17 +3,16 @@ using NUnit.Framework;
 using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SJP.ProcessRedux.Tests
 {
     [TestFixture]
-    public class DataStreamingProcessTests : ProcessTest
+    public class ObservableDataStreamingProcessTests : ProcessTest
     {
         [Test]
         public void Ctor_GivenNullConfig_ThrowsArgNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new DataStreamingProcess(null));
+            Assert.Throws<ArgumentNullException>(() => new ObservableDataStreamingProcess(null));
         }
 
         [Test]
@@ -22,7 +21,7 @@ namespace SJP.ProcessRedux.Tests
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
                 Assert.Throws<InvalidOperationException>(() => { var x = dataProcess.State; });
         }
 
@@ -30,7 +29,7 @@ namespace SJP.ProcessRedux.Tests
         public void State_WhenExited_ThrowsInvalidOperationException()
         {
             var config = new ProcessConfiguration(TestProcessFilePath);
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 Task.Delay(100).Wait();
@@ -45,7 +44,7 @@ namespace SJP.ProcessRedux.Tests
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
                 Assert.Throws<InvalidOperationException>(() => { var x = dataProcess.StandardInput; });
         }
 
@@ -53,7 +52,7 @@ namespace SJP.ProcessRedux.Tests
         public void StandardInput_WhenExited_ThrowsInvalidOperationException()
         {
             var config = new ProcessConfiguration(TestProcessFilePath);
-            using (var textProcess = new DataStreamingProcess(config))
+            using (var textProcess = new ObservableDataStreamingProcess(config))
             {
                 textProcess.Start();
                 Task.Delay(100).Wait();
@@ -68,7 +67,7 @@ namespace SJP.ProcessRedux.Tests
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
                 Assert.Throws<InvalidOperationException>(() => dataProcess.Kill());
         }
 
@@ -79,7 +78,7 @@ namespace SJP.ProcessRedux.Tests
             var config = new ProcessConfiguration(fileName);
 
             // using aggregate, but it really constains invalid op
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
                 Assert.Throws<AggregateException>(() => dataProcess.KillAsync().Wait());
         }
 
@@ -89,7 +88,7 @@ namespace SJP.ProcessRedux.Tests
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
                 Assert.IsFalse(dataProcess.HasStarted);
         }
 
@@ -99,7 +98,7 @@ namespace SJP.ProcessRedux.Tests
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
                 Assert.IsFalse(dataProcess.HasExited);
         }
 
@@ -111,7 +110,7 @@ namespace SJP.ProcessRedux.Tests
             var config = new ProcessConfiguration(TestProcessFilePath);
             var result = -1;
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Exited += (s, exitCode) => result = exitCode;
                 dataProcess.Start();
@@ -126,7 +125,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath);
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 Assert.IsTrue(dataProcess.HasStarted);
@@ -139,7 +138,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath);
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 dataProcess.WaitForExit();
@@ -153,7 +152,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var state = dataProcess.State;
@@ -167,7 +166,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 Assert.IsNotNull(dataProcess.StandardInput);
@@ -181,7 +180,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 dataProcess.Kill();
@@ -194,7 +193,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 dataProcess.Kill();
@@ -210,7 +209,7 @@ namespace SJP.ProcessRedux.Tests
             const int errorCode = 1;
             var config = new ProcessConfiguration(TestProcessFilePath);
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 Assert.AreEqual(errorCode, dataProcess.WaitForExit());
@@ -224,7 +223,7 @@ namespace SJP.ProcessRedux.Tests
             const int errorCode = 1;
             var config = new ProcessConfiguration(TestProcessFilePath);
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var exitCode = await dataProcess.WaitForExitAsync();
@@ -237,7 +236,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var killedInTime = dataProcess.WaitForExit(2000, out var exitCode);
@@ -251,7 +250,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait5Seconds };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var killedInTime = dataProcess.WaitForExit(2000, out var exitCode);
@@ -265,7 +264,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var (killedInTime, exitCode) = dataProcess.WaitForExit(2000);
@@ -279,7 +278,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait5Seconds };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var (killedInTime, exitCode) = dataProcess.WaitForExit(2000);
@@ -293,7 +292,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var timeout = TimeSpan.FromSeconds(2);
@@ -308,7 +307,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait5Seconds };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var timeout = TimeSpan.FromSeconds(2);
@@ -323,7 +322,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var timeout = TimeSpan.FromSeconds(2);
@@ -338,7 +337,7 @@ namespace SJP.ProcessRedux.Tests
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait5Seconds };
 
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
                 dataProcess.Start();
                 var timeout = TimeSpan.FromSeconds(2);
@@ -355,9 +354,9 @@ namespace SJP.ProcessRedux.Tests
             var result = new List<byte>();
 
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.WriteStdErrData };
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
-                dataProcess.ErrorDataReceived += (s, data) => result.AddRange(data);
+                dataProcess.ErrorData.Subscribe(data => result.AddRange(data));
                 dataProcess.Start();
                 Task.Delay(1000).Wait();
             }
@@ -374,9 +373,9 @@ namespace SJP.ProcessRedux.Tests
             var result = new List<byte>();
 
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.WriteStdOutData };
-            using (var dataProcess = new DataStreamingProcess(config))
+            using (var dataProcess = new ObservableDataStreamingProcess(config))
             {
-                dataProcess.OutputDataReceived += (s, data) => result.AddRange(data);
+                dataProcess.OutputData.Subscribe(data => result.AddRange(data));
                 dataProcess.Start();
                 Task.Delay(1000).Wait();
             }

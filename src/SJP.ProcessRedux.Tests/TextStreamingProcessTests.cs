@@ -114,10 +114,9 @@ namespace SJP.ProcessRedux.Tests
             {
                 textProcess.Exited += (s, exitCode) => result = exitCode;
                 textProcess.Start();
-                textProcess.WaitForExit();
+                Task.Delay(1000).Wait();
             }
 
-            Task.Delay(1000).Wait();
             Assert.AreEqual(errorCode, result);
         }
 
