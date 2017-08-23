@@ -358,7 +358,7 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.ErrorDataReceived += (s, data) => result.AddRange(data);
                 dataProcess.Start();
-                dataProcess.WaitForExit();
+                dataProcess.WaitForExit(100);
             }
 
             var seqEqual = expected.SequenceEqual(result);
@@ -376,7 +376,7 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.OutputDataReceived += (s, data) => result.AddRange(data);
                 dataProcess.Start();
-                dataProcess.WaitForExit();
+                dataProcess.WaitForExit(100);
             }
 
             var seqEqual = expected.SequenceEqual(result);

@@ -357,7 +357,7 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.ErrorLineReceived += (s, line) => result.Append(line);
                 dataProcess.Start();
-                dataProcess.WaitForExit();
+                dataProcess.WaitForExit(100);
             }
 
             var resultStr = result.ToString();
@@ -375,7 +375,7 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.OutputLineReceived += (s, line) => result.Append(line);
                 dataProcess.Start();
-                dataProcess.WaitForExit();
+                dataProcess.WaitForExit(100);
             }
 
             var resultStr = result.ToString();
