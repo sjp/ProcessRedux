@@ -323,7 +323,7 @@ namespace SJP.ProcessRedux
         private void OnErrorReceived(object sender, DataReceivedEventArgs args)
         {
             if (args == null)
-                throw new ArgumentNullException(nameof(args));
+                return;
 
             OnErrorReceived(args.Data);
         }
@@ -331,7 +331,7 @@ namespace SJP.ProcessRedux
         private void OnOutputReceived(object sender, DataReceivedEventArgs args)
         {
             if (args == null)
-                throw new ArgumentNullException(nameof(args));
+                return;
 
             OnOutputReceived(args.Data);
         }

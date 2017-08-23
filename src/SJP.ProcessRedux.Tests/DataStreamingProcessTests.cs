@@ -115,10 +115,9 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.Exited += (s, exitCode) => result = exitCode;
                 dataProcess.Start();
-                dataProcess.WaitForExit();
+                Task.Delay(1000).Wait();
             }
 
-            Task.Delay(1000).Wait();
             Assert.AreEqual(errorCode, result);
         }
 
@@ -352,7 +351,7 @@ namespace SJP.ProcessRedux.Tests
         [Test]
         public void ErrorDataReceived_WhenSubscribed_ReturnsExpectedData()
         {
-            var expected = Constants.Data.DataDeadBeef;
+            var expected = Convert.ToBase64String(Constants.Data.DataDeadBeef);
             var result = new List<byte>();
 
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.WriteStdErrData };
@@ -360,18 +359,17 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.ErrorDataReceived += (s, data) => result.AddRange(data);
                 dataProcess.Start();
-                dataProcess.WaitForExit();
+                Task.Delay(1000).Wait();
             }
 
-            Task.Delay(1000).Wait();
-            var seqEqual = expected.SequenceEqual(result);
-            Assert.IsTrue(seqEqual);
+            var base64 = Convert.ToBase64String(result.ToArray());
+            Assert.AreEqual(expected, base64);
         }
 
         [Test]
         public void OutputDataReceived_WhenSubscribed_ReturnsExpectedData()
         {
-            var expected = Constants.Data.DataCafeBabe;
+            var expected = Convert.ToBase64String(Constants.Data.DataCafeBabe);
             var result = new List<byte>();
 
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.WriteStdOutData };
@@ -379,12 +377,11 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.OutputDataReceived += (s, data) => result.AddRange(data);
                 dataProcess.Start();
-                dataProcess.WaitForExit();
+                Task.Delay(1000).Wait();
             }
 
-            Task.Delay(1000).Wait();
-            var seqEqual = expected.SequenceEqual(result);
-            Assert.IsTrue(seqEqual);
+            var base64 = Convert.ToBase64String(result.ToArray());
+            Assert.AreEqual(expected, base64);
         }
     }
 }
