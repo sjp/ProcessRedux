@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45;net461;netcoreapp1.1;netcoreapp2.0;netstandard1.4;netstandard2.0</TargetFrameworks>
-    <!-- Don't reference the full NETStandard.Library -->
-    <!--<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>-->
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -15,7 +13,7 @@
     <PackageLicenseUrl>https://raw.github.com/sjp/ProcessRedux/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/sjp/ProcessRedux</PackageProjectUrl>
     <RepositoryUrl>https://github.com/sjp/ProcessRedux</RepositoryUrl>
-    <!--<PackageIconUrl>https://raw.github.com/sjp/ProcessRedux/master/processredux.svg</PackageIconUrl>-->
+    <PackageIconUrl>https://raw.github.com/sjp/ProcessRedux/master/processredux.svg</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
