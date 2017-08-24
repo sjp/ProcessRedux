@@ -1,4 +1,9 @@
-# SJP.ProcessRedux
+<h1 align="center">
+	<br>
+	<img width="256" height="256" src="processredux.png" alt="ProcessRedux">
+	<br>
+	<br>
+</h1>
 
 > Simple event-driven process handling for .NET
 
@@ -93,9 +98,100 @@ We can see how there are now two methods by which we can determine when a proces
 There are also [reactive](http://reactivex.io/) process handlers that provide subscriptions to streams of output from a process.
 
 ```csharp
-TODO
+var helloWorldPath = @"C:\tmp\helloworld.exe"
+var processConfig = new ProcessConfiguration(helloWorldPath);
+
+var builder = new StringBuilder(); // to store results
+using (var process = new ObservableTextStreamingProcess(processConfig))
+{
+    process.OutputLines.Subscribe(line => builder.Append(line));
+    process.Start();
+    var exitCode = process.WaitForExit();
+}
+
+builder.ToString(); // "Hello, world!"
 ```
 
 ## API
 
-*TODO*
+### `DataStreamingProcess`
+
+#### `ErrorDataReceived`
+
+An event that will provide an array of bytes when data has been received from the process' standard error stream.
+
+#### `OutputDataReceived`
+
+An event that will provide an array of bytes when data has been received from the process' standard output stream.
+
+#### `Exited`
+
+An event that provides the exit code of the process once it has exited.
+
+#### `State`
+
+Retrieves the current state of the process. This wraps many of the properties that currently reside on `System.Diagnostics.Process` and moves them to a single object.
+
+#### `StandardInput`
+
+This is the same as the regular standard input stream, except that the raw stream is exposed. This enables writing any kind of data to the stream, not just textual data.
+
+#### `Kill()`
+
+Kills the process. Any calls after the first one will perform no action.
+
+#### `KillAsync()`
+
+Asynchronously kills the process. Can be useful on the occasions when killing a process can take longer than expected.
+
+#### `Start()`
+
+Starts the process. This can be call multiple times, but successive calls will perform no action.
+
+#### `WaitForExit()`
+
+Waits with a blocking call for the process to exit. There are multiple overloads which allow blocking to occur but only for a given period of time. Additionally, this also provides the exit code returned by the process.
+
+#### `WaitForExitAsync()`
+
+Provides a task that will complete when the process has exited. Use this to avoid blocking with `WaitForExit()`. Like `WaitForExit()`, it also returns the exit code once the process has exited.
+
+### `TextStreamingProcess`
+
+This class is largely similar in behavior to `DataStreamingProcess`. The key differences are that two events that `DataStreamingProcess` provides (`ErrorDataReceived` and `OutputDataReceived`) are instead replaced with the following events:
+
+#### `ErrorLineReceived`
+
+An event that will provide a line of text when one has been received from the process' standard error stream.
+
+#### `OutputLineReceived`
+
+An event that will provide a line of text when one has been received from the process' standard output stream.
+
+### `ObservableDataStreamingProcess`, `ObservableTextStreamingProcess`
+
+These are wrappers for `DataStreamingProcess` and `TextStreamingProcess` respectively. They do not expose events, instead `IObservable<T>` subscriptions are provided.
+
+`ObservableDataStreamingProcess` provides the following:
+
+#### `ErrorData`
+
+Provides a subscription to data when it is received from the standard error stream. The data is in the form of a byte array.
+
+#### `OutputData`
+
+Provides a subscription to data when it is received from the standard output stream. The data is in the form of a byte array.
+
+`ObservableTextStreamingProcess` instead provides:
+
+#### `ErrorLines`
+
+Provides a subscription to lines of text when they are printed from the standard error stream.
+
+#### `OutputLines`
+
+Provides a subscription to lines of text when they are printed from the standard output stream.
+
+## Icon
+
+Icon created by [Freepik](http://www.freepik.com).

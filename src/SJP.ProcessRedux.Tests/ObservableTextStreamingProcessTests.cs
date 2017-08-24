@@ -29,12 +29,12 @@ namespace SJP.ProcessRedux.Tests
         public void State_WhenExited_ThrowsInvalidOperationException()
         {
             var config = new ProcessConfiguration(TestProcessFilePath);
-            using (var dataProcess = new ObservableTextStreamingProcess(config))
+            using (var textProcess = new ObservableTextStreamingProcess(config))
             {
-                dataProcess.Start();
+                textProcess.Start();
                 Task.Delay(100).Wait();
-                Assert.Throws<InvalidOperationException>(() => { var x = dataProcess.State; });
-                dataProcess.WaitForExit();
+                Assert.Throws<InvalidOperationException>(() => { var x = textProcess.State; });
+                textProcess.WaitForExit();
             }
         }
 
@@ -114,6 +114,7 @@ namespace SJP.ProcessRedux.Tests
             {
                 textProcess.Exited += (s, exitCode) => result = exitCode;
                 textProcess.Start();
+                textProcess.WaitForExit();
                 Task.Delay(1000).Wait();
             }
 
@@ -356,11 +357,11 @@ namespace SJP.ProcessRedux.Tests
             var result = new StringBuilder();
 
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.WriteStdErrText };
-            using (var dataProcess = new ObservableTextStreamingProcess(config))
+            using (var textProcess = new ObservableTextStreamingProcess(config))
             {
-                dataProcess.ErrorLines.Subscribe(line => result.Append(line));
-                dataProcess.Start();
-                dataProcess.WaitForExit();
+                textProcess.ErrorLines.Subscribe(line => result.Append(line));
+                textProcess.Start();
+                textProcess.WaitForExit();
             }
 
             Task.Delay(1000).Wait();
@@ -376,11 +377,11 @@ namespace SJP.ProcessRedux.Tests
             var result = new StringBuilder();
 
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.WriteStdOutText };
-            using (var dataProcess = new ObservableTextStreamingProcess(config))
+            using (var textProcess = new ObservableTextStreamingProcess(config))
             {
-                dataProcess.OutputLines.Subscribe(line => result.Append(line));
-                dataProcess.Start();
-                dataProcess.WaitForExit();
+                textProcess.OutputLines.Subscribe(line => result.Append(line));
+                textProcess.Start();
+                textProcess.WaitForExit();
             }
 
             Task.Delay(1000).Wait();

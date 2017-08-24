@@ -114,6 +114,7 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.Exited += (s, exitCode) => result = exitCode;
                 dataProcess.Start();
+                dataProcess.WaitForExit();
                 Task.Delay(1000).Wait();
             }
 
