@@ -112,6 +112,10 @@ using (var process = new ObservableTextStreamingProcess(processConfig))
 builder.ToString(); // "Hello, world!"
 ```
 
+## Contributing
+
+Anyone is welcome to contribute. For any code contributions, please ensure that documentation and unit/integration tests have been provided. I will also accept contributions where the AppVeyor build has failed as the builds do not always succeed in AppVeyor, despite working fine on a local machine.
+
 ## API
 
 ### `DataStreamingProcess`
