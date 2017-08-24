@@ -8,9 +8,6 @@
 
   <ItemGroup>
     <None Remove="SJP.ProcessRedux.Tests.ConsoleProcess.exe" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="SJP.ProcessRedux.Tests.ConsoleProcess.exe" />
   </ItemGroup>
 

@@ -26,20 +26,37 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        public sealed class NonWindows : NUnitAttribute, IApplyToTest
+        public sealed class Osx : NUnitAttribute, IApplyToTest
         {
             public void ApplyToTest(Test test)
             {
-                if (test.RunState == RunState.NotRunnable || _isNotWindows)
+                if (test.RunState == RunState.NotRunnable || _isOsx)
                     return;
 
                 test.RunState = RunState.Ignored;
 
-                const string reason = "This test is ignored because the current platform is Windows and the test is for non-Windows platforms only.";
+                const string reason = "This test is ignored because the current platform is non-OSX and the test is for OSX platforms only.";
                 test.Properties.Set(PropertyNames.SkipReason, reason);
             }
 
-            private readonly static bool _isNotWindows = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            private readonly static bool _isOsx = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+        }
+
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+        public sealed class Linux : NUnitAttribute, IApplyToTest
+        {
+            public void ApplyToTest(Test test)
+            {
+                if (test.RunState == RunState.NotRunnable || _isLinux)
+                    return;
+
+                test.RunState = RunState.Ignored;
+
+                const string reason = "This test is ignored because the current platform is non-Linux and the test is for Linux platforms only.";
+                test.Properties.Set(PropertyNames.SkipReason, reason);
+            }
+
+            private readonly static bool _isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
     }
 }
