@@ -21,8 +21,6 @@ Avoid many of the complexities of working with `System.Diagnostics.Process` and 
 
 ## Installation
 
-**NOTE:** This project is still a work in progress. However, once ready, it will be available by the following methods.
-
 ```powershell
 Install-Package SJP.ProcessRedux
 ```
