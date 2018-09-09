@@ -41,25 +41,18 @@ namespace SJP.ProcessRedux
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
-                WorkingDirectory = processConfig.WorkingDirectory
+                WorkingDirectory = processConfig.WorkingDirectory,
+                Domain = processConfig.Credentials?.Domain,
+                UserName = processConfig.Credentials?.UserName,
+                PasswordInClearText = processConfig.Credentials?.Password
             };
 
-#if HAS_PROCESS_CREDENTIALS
-            startInfo.Domain = processConfig.Credentials?.Domain;
-            startInfo.UserName = processConfig.Credentials?.UserName;
-#if HAS_PROCESS_CREDENTIALS_PASSWORDINCLEARTEXT
-            startInfo.PasswordInClearText = processConfig.Credentials?.Password;
-#endif
-#endif
-
-#if HAS_ENVVARS
             var configVars = processConfig.EnvironmentVariables ?? new Dictionary<string, string>();
             if (configVars.Count > 0)
             {
                 foreach (var kv in configVars)
                     startInfo.EnvironmentVariables[kv.Key] = kv.Value;
             }
-#endif
 
             return startInfo;
         }
@@ -75,19 +68,11 @@ namespace SJP.ProcessRedux
                 throw new ArgumentException($"The { nameof(ProcessStartInfo) } object must contain a file name.", nameof(startInfo));
 
             NetworkCredential credentials = null;
-#if HAS_PROCESS_CREDENTIALS_PASSWORDINCLEARTEXT
             var hasCredentials = !startInfo.Domain.IsNullOrWhiteSpace()
                 || !startInfo.UserName.IsNullOrWhiteSpace()
                 || !startInfo.PasswordInClearText.IsNullOrWhiteSpace();
             if (hasCredentials)
                 credentials = new NetworkCredential(startInfo.UserName, startInfo.PasswordInClearText, startInfo.Domain);
-#elif HAS_PROCESS_CREDENTIALS
-            var hasCredentials = !startInfo.Domain.IsNullOrWhiteSpace()
-                || !startInfo.UserName.IsNullOrWhiteSpace()
-                || startInfo.Password != null;
-            if (hasCredentials)
-                credentials = new NetworkCredential(startInfo.UserName, startInfo.Password, startInfo.Domain);
-#endif
 
             var processConfig = new ProcessConfiguration(startInfo.FileName)
             {
@@ -96,13 +81,11 @@ namespace SJP.ProcessRedux
                 WorkingDirectory = startInfo.WorkingDirectory
             };
 
-#if HAS_ENVVARS
             if (startInfo.EnvironmentVariables != null)
             {
                 foreach (DictionaryEntry entry in startInfo.EnvironmentVariables)
                     processConfig.EnvironmentVariables[entry.Key.ToString()] = entry.Value.ToString();
             }
-#endif
 
             return processConfig;
         }

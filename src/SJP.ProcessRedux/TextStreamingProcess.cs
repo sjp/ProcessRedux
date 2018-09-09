@@ -177,46 +177,24 @@ namespace SJP.ProcessRedux
             return _hasStarted;
         }
 
-#if NO_SYS_EXCEPTION
-                /// <summary>
-        /// Instructs the <see cref="TextStreamingProcess"/> component to wait indefinitely for the associated process to exit.
-        /// </summary>
-        /// <returns>The value that the associated process specified when it terminated.</returns>
-#else
         /// <summary>
         /// Instructs the <see cref="TextStreamingProcess"/> component to wait indefinitely for the associated process to exit.
         /// </summary>
         /// <returns>The value that the associated process specified when it terminated.</returns>
         /// <exception cref="SystemException">No process information can be obtained. Can also be thrown when the process has not yet started.</exception>
-#endif
         public int WaitForExit()
         {
             _process.WaitForExit();
             return _process.ExitCode;
         }
 
-#if NO_SYS_EXCEPTION
-                /// <summary>
-        /// Instructs the <see cref="TextStreamingProcess"/> component to wait indefinitely for the associated process to exit.
-        /// </summary>
-        /// <returns>A task that represents the asynchronous wait operation.</returns>
-#else
         /// <summary>
         /// Instructs the <see cref="TextStreamingProcess"/> component to wait indefinitely for the associated process to exit.
         /// </summary>
         /// <returns>A task that represents the asynchronous wait operation.</returns>
         /// <exception cref="SystemException">No process information can be obtained. Can also be thrown when the process has not yet started.</exception>
-#endif
         public Task<int> WaitForExitAsync() => Task.Run(() => WaitForExit());
 
-#if NO_SYS_EXCEPTION
-                /// <summary>
-        /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
-        /// </summary>
-        /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
-        /// <param name="exitCode">The value that the associated process specified when it terminated. Defaults to <c>0</c> when the timeout expired before the process exited.</param>
-        /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
-#else
         /// <summary>
         /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
         /// </summary>
@@ -224,7 +202,6 @@ namespace SJP.ProcessRedux
         /// <param name="exitCode">The value that the associated process specified when it terminated. Defaults to <c>0</c> when the timeout expired before the process exited.</param>
         /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
         /// <exception cref="SystemException">No process information can be obtained. Can also be thrown when the process has not yet started.</exception>
-#endif
         public bool WaitForExit(int milliseconds, out int exitCode)
         {
             var hasExited = _process.WaitForExit(milliseconds);
@@ -233,34 +210,18 @@ namespace SJP.ProcessRedux
             return hasExited;
         }
 
-#if NO_SYS_EXCEPTION
-                /// <summary>
-        /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
-        /// </summary>
-        /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
-        /// <returns>A tuple of length two. The component returns <c>true</c> if the associated process has exited; otherwise, <c>false</c>. The second component is the value that the associated process specified when it terminated, defaults to <c>0</c> when the timeout expired before the process exited.</returns>
-#else
         /// <summary>
         /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
         /// </summary>
         /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
         /// <returns>A tuple of length two. The component returns <c>true</c> if the associated process has exited; otherwise, <c>false</c>. The second component is the value that the associated process specified when it terminated, defaults to <c>0</c> when the timeout expired before the process exited.</returns>
         /// <exception cref="SystemException">No process information can be obtained. Can also be thrown when the process has not yet started.</exception>
-#endif
         public (bool exited, int exitCode) WaitForExit(int milliseconds)
         {
             var hasExited = _process.WaitForExit(milliseconds);
             return (hasExited, hasExited ? _process.ExitCode : 0);
         }
 
-#if NO_SYS_EXCEPTION
-                /// <summary>
-        /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
-        /// </summary>
-        /// <param name="timeout">The amount of time to wait for the associated process to exit. The maximum is the largest possible value for milliseconds of a 32-bit integer, which represents infinity to the operating system. Any timespan larger than a 32-bit millisecond timeout is assumed to be infinite.</param>
-        /// <param name="exitCode">The value that the associated process specified when it terminated. Defaults to <c>0</c> when the timeout expired before the process exited.</param>
-        /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
-#else
         /// <summary>
         /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
         /// </summary>
@@ -268,7 +229,6 @@ namespace SJP.ProcessRedux
         /// <param name="exitCode">The value that the associated process specified when it terminated. Defaults to <c>0</c> when the timeout expired before the process exited.</param>
         /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
         /// <exception cref="SystemException">No process information can be obtained. Can also be thrown when the process has not yet started.</exception>
-#endif
         public bool WaitForExit(TimeSpan timeout, out int exitCode)
         {
             var milliseconds = timeout.TotalMilliseconds.Clamp(0, int.MaxValue);
@@ -277,20 +237,12 @@ namespace SJP.ProcessRedux
             return WaitForExit(intMs, out exitCode);
         }
 
-#if NO_SYS_EXCEPTION
-        /// <summary>
-        /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
-        /// </summary>
-        /// <param name="timeout">The amount of time to wait for the associated process to exit. The maximum is the largest possible value for milliseconds of a 32-bit integer, which represents infinity to the operating system. Any timespan larger than a 32-bit millisecond timeout is assumed to be infinite.</param>
-        /// <returns>A tuple of length two. The component returns <c>true</c> if the associated process has exited; otherwise, <c>false</c>. The second component is the value that the associated process specified when it terminated, defaults to <c>0</c> when the timeout expired before the process exited.</returns>
-#else
         /// <summary>
         /// Instructs the <see cref="TextStreamingProcess"/> component to wait the specified timespan for the associated process to exit.
         /// </summary>
         /// <param name="timeout">The amount of time to wait for the associated process to exit. The maximum is the largest possible value for milliseconds of a 32-bit integer, which represents infinity to the operating system. Any timespan larger than a 32-bit millisecond timeout is assumed to be infinite.</param>
         /// <returns>A tuple of length two. The component returns <c>true</c> if the associated process has exited; otherwise, <c>false</c>. The second component is the value that the associated process specified when it terminated, defaults to <c>0</c> when the timeout expired before the process exited.</returns>
         /// <exception cref="SystemException">No process information can be obtained. Can also be thrown when the process has not yet started.</exception>
-#endif
         public (bool exited, int exitCode) WaitForExit(TimeSpan timeout)
         {
             var milliseconds = timeout.TotalMilliseconds.Clamp(0, int.MaxValue);

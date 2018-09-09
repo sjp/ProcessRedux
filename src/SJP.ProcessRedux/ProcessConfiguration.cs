@@ -35,11 +35,7 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Gets search paths for files, directories for temporary files, application-specific options, and other similar information.
         /// </summary>
-#if NO_INVARIANT_CULTURE
-        public IDictionary<string, string> EnvironmentVariables { get; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-#else
         public IDictionary<string, string> EnvironmentVariables { get; } = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-#endif
 
         /// <summary>
         /// Gets or sets the application to start.

@@ -226,32 +226,18 @@ namespace SJP.ProcessRedux
         /// <exception cref="InvalidOperationException">No file name was specified in the process component's <see cref="StartInfo"/>.</exception>
         public bool Start() => _process.Start();
 
-#if NO_SYS_EXCEPTION
-        /// <summary>
-        /// Instructs the <see cref="IFrameworkProcess"/> component to wait indefinitely for the associated process to exit.
-        /// </summary>
-#else
         /// <summary>
         /// Instructs the <see cref="IFrameworkProcess"/> component to wait indefinitely for the associated process to exit.
         /// </summary>
         /// <exception cref="SystemException">No process <see cref="Id"/> has been set, and a handle from which the <see cref="Id"/> property can be determined does not exist. Can also be thrown when the process has not yet started.</exception>
-#endif
         public void WaitForExit() => _process.WaitForExit();
 
-#if NO_SYS_EXCEPTION
-        /// <summary>
-        /// Instructs the <see cref="IFrameworkProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
-        /// </summary>
-        /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
-        /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
-#else
         /// <summary>
         /// Instructs the <see cref="IFrameworkProcess"/> component to wait the specified number of milliseconds for the associated process to exit.
         /// </summary>
         /// <param name="milliseconds">The amount of time, in milliseconds, to wait for the associated process to exit. The maximum is the largest possible value of a 32-bit integer, which represents infinity to the operating system.</param>
         /// <returns><c>true</c> if the associated process has exited; otherwise, <c>false</c>.</returns>
         /// <exception cref="SystemException">No process <see cref="Id"/> has been set, and a handle from which the <see cref="Id"/> property can be determined does not exist. Can also be thrown when the process has not yet started.</exception>
-#endif
         public bool WaitForExit(int milliseconds) => _process.WaitForExit(milliseconds);
 
         private bool GetHasStarted()

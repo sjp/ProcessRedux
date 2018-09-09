@@ -82,8 +82,10 @@ namespace SJP.ProcessRedux
 
             var result = new List<string>();
             foreach (var matchingFile in matchingFiles)
+            {
                 if (uniqueCheck.Add(matchingFile))
                     result.Add(matchingFile);
+            }
 
             return result;
         }
@@ -101,7 +103,6 @@ namespace SJP.ProcessRedux
         {
             get
             {
-#if NO_CURRENT_DIRECTORY
                 var searchDirs = new List<string>() { Directory.GetCurrentDirectory() };
 
                 var winDir = Environment.GetEnvironmentVariable("windir");
@@ -121,20 +122,14 @@ namespace SJP.ProcessRedux
                     return searchDirs;
                 }
                 searchDirs.Add(sys32Dir);
-#else
-                var searchDirs = new List<string>
-                {
-                    Environment.CurrentDirectory,
-                    Environment.GetFolderPath(Environment.SpecialFolder.Windows),
-                    Environment.SystemDirectory
-                };
-#endif
 
                 var uniqueCheck = new HashSet<string>(searchDirs, StringComparer.OrdinalIgnoreCase);
 
                 foreach (var dir in PathDirs)
+                {
                     if (uniqueCheck.Add(dir))
                         searchDirs.Add(dir);
+                }
 
                 return searchDirs;
             }
@@ -210,20 +205,8 @@ namespace SJP.ProcessRedux
             }
         }
 
-        private static bool IsWindows => _isWindowsLoader.Value;
+        private static bool IsWindows { get; } = Environment.OSVersion.Platform == PlatformID.Win32NT;
 
-        private static bool IsOsx => _isOsxLoader.Value;
-
-#if NETFX
-        private readonly static Lazy<bool> _isWindowsLoader = new Lazy<bool>(() => Environment.OSVersion.Platform == PlatformID.Win32NT);
-#else
-        private readonly static Lazy<bool> _isWindowsLoader = new Lazy<bool>(() => RuntimeInformation.IsOSPlatform(OSPlatform.Windows));
-#endif
-
-#if NETFX
-        private readonly static Lazy<bool> _isOsxLoader = new Lazy<bool>(() => Environment.OSVersion.Platform == PlatformID.MacOSX);
-#else
-        private readonly static Lazy<bool> _isOsxLoader = new Lazy<bool>(() => RuntimeInformation.IsOSPlatform(OSPlatform.OSX));
-#endif
+        private static bool IsOsx { get; } = Environment.OSVersion.Platform == PlatformID.MacOSX;
     }
 }
