@@ -79,9 +79,9 @@ namespace SJP.ProcessRedux.Tests.ConsoleProcess
         private const int ExitFailure = 1;
     }
 
-    public static class Constants
+    internal static class Constants
     {
-        public static class Arguments
+        internal static class Arguments
         {
             public static string ReadStdInData => "stdinData";
 
@@ -100,7 +100,7 @@ namespace SJP.ProcessRedux.Tests.ConsoleProcess
             public static string Wait5Seconds => "wait5s";
         }
 
-        public static class Data
+        internal static class Data
         {
             // use for stdout
             public static byte[] DataCafeBabe => new byte[] { 0xCA, 0xFE, 0xBA, 0xBE };

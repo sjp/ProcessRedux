@@ -34,7 +34,7 @@ namespace SJP.ProcessRedux
             };
             _process = new FrameworkProcessAdapter(process);
 
-            Exited += (s, e) => _hasExited = true;
+            Exited += (_, __) => _hasExited = true;
         }
 
         /// <summary>

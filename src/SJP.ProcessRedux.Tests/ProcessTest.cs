@@ -4,7 +4,7 @@ using System.Reflection;
 namespace SJP.ProcessRedux.Tests
 {
     [TestPlatform.Windows]
-    public class ProcessTest
+    internal class ProcessTest
     {
         static ProcessTest()
         {

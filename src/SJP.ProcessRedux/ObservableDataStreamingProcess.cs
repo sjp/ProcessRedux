@@ -21,7 +21,7 @@ namespace SJP.ProcessRedux
                 throw new ArgumentNullException(nameof(processConfig));
 
             _process = new DataStreamingProcess(processConfig);
-            Exited += (s, e) => _hasExited = true;
+            Exited += (_, __) => _hasExited = true;
             ErrorData = Observable
                 .FromEventPattern<byte[]>(h => _process.ErrorDataReceived += h, h => _process.ErrorDataReceived -= h)
                 .Select(x => x.EventArgs);

@@ -7,16 +7,16 @@ using System.Text;
 namespace SJP.ProcessRedux.Tests
 {
     [TestFixture]
-    public class ObservableTextStreamingProcessTests : ProcessTest
+    internal class ObservableTextStreamingProcessTests : ProcessTest
     {
         [Test]
-        public void Ctor_GivenNullConfig_ThrowsArgNullException()
+        public static void Ctor_GivenNullConfig_ThrowsArgNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new ObservableTextStreamingProcess(null));
         }
 
         [Test]
-        public void State_WhenNotStarted_ThrowsInvalidOperationException()
+        public static void State_WhenNotStarted_ThrowsInvalidOperationException()
         {
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
@@ -26,7 +26,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void State_WhenExited_ThrowsInvalidOperationException()
+        public static void State_WhenExited_ThrowsInvalidOperationException()
         {
             var config = new ProcessConfiguration(TestProcessFilePath);
             using (var textProcess = new ObservableTextStreamingProcess(config))
@@ -39,7 +39,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void StandardInput_WhenNotStarted_ThrowsInvalidOperationException()
+        public static void StandardInput_WhenNotStarted_ThrowsInvalidOperationException()
         {
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
@@ -49,7 +49,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void StandardInput_WhenExited_ThrowsInvalidOperationException()
+        public static void StandardInput_WhenExited_ThrowsInvalidOperationException()
         {
             var config = new ProcessConfiguration(TestProcessFilePath);
             using (var textProcess = new ObservableTextStreamingProcess(config))
@@ -62,7 +62,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void Kill_WhenProcessNotStarted_ThrowsInvalidOperationException()
+        public static void Kill_WhenProcessNotStarted_ThrowsInvalidOperationException()
         {
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
@@ -72,7 +72,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void KillAsync_WhenProcessNotStarted_ThrowsInvalidOperationException()
+        public static void KillAsync_WhenProcessNotStarted_ThrowsInvalidOperationException()
         {
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
@@ -83,7 +83,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void HasStarted_WhenNotStarted_ReturnsFalse()
+        public static void HasStarted_WhenNotStarted_ReturnsFalse()
         {
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
@@ -93,7 +93,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void HasExited_WhenNotStarted_ReturnsFalse()
+        public static void HasExited_WhenNotStarted_ReturnsFalse()
         {
             const string fileName = "notepad.exe";
             var config = new ProcessConfiguration(fileName);
@@ -103,7 +103,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void Exited_WhenProcessExits_ReturnsExitCode()
+        public static void Exited_WhenProcessExits_ReturnsExitCode()
         {
             // expect from the process when nothing given to have exit code of 1
             const int errorCode = 1;
@@ -112,7 +112,7 @@ namespace SJP.ProcessRedux.Tests
 
             using (var textProcess = new ObservableTextStreamingProcess(config))
             {
-                textProcess.Exited += (s, exitCode) => result = exitCode;
+                textProcess.Exited += (_, exitCode) => result = exitCode;
                 textProcess.Start();
                 textProcess.WaitForExit();
                 Task.Delay(1000).Wait();
@@ -122,7 +122,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void HasStarted_WhenProcessStarts_ReturnsTrue()
+        public static void HasStarted_WhenProcessStarts_ReturnsTrue()
         {
             var config = new ProcessConfiguration(TestProcessFilePath);
 
@@ -135,7 +135,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void HasExited_WhenProcessExits_ReturnsTrue()
+        public static void HasExited_WhenProcessExits_ReturnsTrue()
         {
             var config = new ProcessConfiguration(TestProcessFilePath);
 
@@ -149,7 +149,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void State_WhenProcessStarts_ReturnsValue()
+        public static void State_WhenProcessStarts_ReturnsValue()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
@@ -163,7 +163,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void StandardInput_WhenProcessStarts_ReturnsNonNullStream()
+        public static void StandardInput_WhenProcessStarts_ReturnsNonNullStream()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
@@ -177,7 +177,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void Kill_WhenProcessRunning_KillsProcess()
+        public static void Kill_WhenProcessRunning_KillsProcess()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
@@ -191,7 +191,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void Kill_WhenProcessExited_DoesNotThrowException()
+        public static void Kill_WhenProcessExited_DoesNotThrowException()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
@@ -205,7 +205,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void WaitForExit_WhenCalled_WaitsForExitAndReturnsExitCode()
+        public static void WaitForExit_WhenCalled_WaitsForExitAndReturnsExitCode()
         {
             // expect from the process when nothing given to have exit code of 1
             const int errorCode = 1;
@@ -219,7 +219,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public async Task WaitForExitAsync_WhenCalled_WaitsForExitAsynchronouslyAndReturnsExitCode()
+        public static async Task WaitForExitAsync_WhenCalled_WaitsForExitAsynchronouslyAndReturnsExitCode()
         {
             // expect from the process when nothing given to have exit code of 1
             const int errorCode = 1;
@@ -228,13 +228,13 @@ namespace SJP.ProcessRedux.Tests
             using (var textProcess = new ObservableTextStreamingProcess(config))
             {
                 textProcess.Start();
-                var exitCode = await textProcess.WaitForExitAsync();
+                var exitCode = await textProcess.WaitForExitAsync().ConfigureAwait(false);
                 Assert.AreEqual(errorCode, exitCode);
             }
         }
 
         [Test]
-        public void WaitForExitIntTimeoutOutExitCode_WhenTimeoutNotMet_ReturnsTrueAndExitCode()
+        public static void WaitForExitIntTimeoutOutExitCode_WhenTimeoutNotMet_ReturnsTrueAndExitCode()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
@@ -248,7 +248,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void WaitForExitIntTimeoutOutExitCode_WhenTimeoutElapsed_ReturnsFalseAndZero()
+        public static void WaitForExitIntTimeoutOutExitCode_WhenTimeoutElapsed_ReturnsFalseAndZero()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait5Seconds };
 
@@ -262,7 +262,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void WaitForExitIntTimeoutExitCodeTuple_WhenTimeoutNotMet_ReturnsTrueAndExitCode()
+        public static void WaitForExitIntTimeoutExitCodeTuple_WhenTimeoutNotMet_ReturnsTrueAndExitCode()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
@@ -276,7 +276,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void WaitForExitIntTimeoutExitCodeTuple_WhenTimeoutElapsed_ReturnsFalseAndZero()
+        public static void WaitForExitIntTimeoutExitCodeTuple_WhenTimeoutElapsed_ReturnsFalseAndZero()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait5Seconds };
 
@@ -290,7 +290,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void WaitForExitTimespanTimeoutOutExitCode_WhenTimeoutNotMet_ReturnsTrueAndExitCode()
+        public static void WaitForExitTimespanTimeoutOutExitCode_WhenTimeoutNotMet_ReturnsTrueAndExitCode()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
@@ -305,7 +305,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void WaitForExitTimespanTimeoutOutExitCode_WhenTimeoutElapsed_ReturnsFalseAndZero()
+        public static void WaitForExitTimespanTimeoutOutExitCode_WhenTimeoutElapsed_ReturnsFalseAndZero()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait5Seconds };
 
@@ -320,7 +320,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void WaitForExitTimespanTimeoutExitCodeTuple_WhenTimeoutNotMet_ReturnsTrueAndExitCode()
+        public static void WaitForExitTimespanTimeoutExitCodeTuple_WhenTimeoutNotMet_ReturnsTrueAndExitCode()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait1Second };
 
@@ -335,7 +335,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [Test]
-        public void WaitForExitTimespanTimeoutExitCodeTuple_WhenTimeoutElapsed_ReturnsFalseAndZero()
+        public static void WaitForExitTimespanTimeoutExitCodeTuple_WhenTimeoutElapsed_ReturnsFalseAndZero()
         {
             var config = new ProcessConfiguration(TestProcessFilePath) { Arguments = Constants.Arguments.Wait5Seconds };
 
@@ -351,7 +351,7 @@ namespace SJP.ProcessRedux.Tests
 
         // uncomment when running locally, seems to fail on CI
         /*[Test]
-        public void ErrorLineReceived_WhenSubscribed_ReturnsExpectedData()
+        public static void ErrorLineReceived_WhenSubscribed_ReturnsExpectedData()
         {
             var expected = Constants.Data.StdErrText;
             var result = new StringBuilder();
@@ -371,7 +371,7 @@ namespace SJP.ProcessRedux.Tests
 
         // uncomment when running locally, seems to fail on CI
         /*[Test]
-        public void OutputLineReceived_WhenSubscribed_ReturnsExpectedData()
+        public static void OutputLineReceived_WhenSubscribed_ReturnsExpectedData()
         {
             var expected = Constants.Data.StdOutText;
             var result = new StringBuilder();

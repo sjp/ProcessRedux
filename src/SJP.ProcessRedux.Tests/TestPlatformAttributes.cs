@@ -6,10 +6,10 @@ using NUnit.Framework.Internal;
 
 namespace SJP.ProcessRedux.Tests
 {
-    public static class TestPlatform
+    internal static class TestPlatform
     {
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        public sealed class Windows : NUnitAttribute, IApplyToTest
+        internal sealed class Windows : NUnitAttribute, IApplyToTest
         {
             public void ApplyToTest(Test test)
             {
@@ -26,7 +26,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        public sealed class Osx : NUnitAttribute, IApplyToTest
+        internal sealed class Osx : NUnitAttribute, IApplyToTest
         {
             public void ApplyToTest(Test test)
             {
@@ -43,7 +43,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        public sealed class Linux : NUnitAttribute, IApplyToTest
+        internal sealed class Linux : NUnitAttribute, IApplyToTest
         {
             public void ApplyToTest(Test test)
             {

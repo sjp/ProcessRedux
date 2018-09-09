@@ -31,7 +31,7 @@ namespace SJP.ProcessRedux.ConsoleTest
             using (var writer = new BinaryWriter(File.OpenWrite(mp3OutputPath)))
             using (var process = new DataStreamingProcess(processConfig))
             {
-                process.OutputDataReceived += (s, data) => writer.Write(data);
+                process.OutputDataReceived += (_, data) => writer.Write(data);
                 process.Start();
                 var exitCode = process.WaitForExit();
             }

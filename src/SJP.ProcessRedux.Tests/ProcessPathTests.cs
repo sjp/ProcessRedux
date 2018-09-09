@@ -4,13 +4,13 @@ using NUnit.Framework;
 
 namespace SJP.ProcessRedux.Tests
 {
-    public static class ProcessPathTests
+    internal static class ProcessPathTests
     {
         [TestFixture, TestPlatform.Windows]
-        public class WindowsTests
+        internal static class WindowsTests
         {
             [Test]
-            public void GetFullPaths_GivenNotepad_ReturnsPathsInWindowsDir()
+            public static void GetFullPaths_GivenNotepad_ReturnsPathsInWindowsDir()
             {
                 const string expected = @"C:\Windows\notepad.exe";
 
@@ -22,7 +22,7 @@ namespace SJP.ProcessRedux.Tests
             }
 
             [Test]
-            public void GetFullPaths_GivenDotNet_ReturnsOnlyPathInProgramFilesDir()
+            public static void GetFullPaths_GivenDotNet_ReturnsOnlyPathInProgramFilesDir()
             {
                 const string expected = @"C:\Program Files\dotnet\dotnet.exe";
 
@@ -34,7 +34,7 @@ namespace SJP.ProcessRedux.Tests
             }
 
             [Test]
-            public void GetFullPaths_GivenDotNetWithoutExtension_ReturnsOnlyPathInProgramFilesDir()
+            public static void GetFullPaths_GivenDotNetWithoutExtension_ReturnsOnlyPathInProgramFilesDir()
             {
                 const string expected = @"C:\Program Files\dotnet\dotnet.exe";
 
@@ -46,7 +46,7 @@ namespace SJP.ProcessRedux.Tests
             }
 
             [Test]
-            public void GetFullPaths_GivenWordpad_ReturnsOnlyPathInProgramFilesDirViaAppPaths()
+            public static void GetFullPaths_GivenWordpad_ReturnsOnlyPathInProgramFilesDirViaAppPaths()
             {
                 const string expected = @"C:\Program Files\Windows NT\Accessories\WORDPAD.EXE";
 
@@ -58,7 +58,7 @@ namespace SJP.ProcessRedux.Tests
             }
 
             [Test]
-            public void GetFullPath_GivenNotepad_ReturnsPathsInWindowsDir()
+            public static void GetFullPath_GivenNotepad_ReturnsPathsInWindowsDir()
             {
                 const string expected = @"C:\Windows\notepad.exe";
                 var path = ProcessPath.GetFullPath("notepad.exe");
@@ -68,7 +68,7 @@ namespace SJP.ProcessRedux.Tests
             }
 
             [Test]
-            public void GetFullPath_GivenDotNet_ReturnsOnlyPathInProgramFilesDir()
+            public static void GetFullPath_GivenDotNet_ReturnsOnlyPathInProgramFilesDir()
             {
                 const string expected = @"C:\Program Files\dotnet\dotnet.exe";
                 var path = ProcessPath.GetFullPath("dotnet.exe");
@@ -78,7 +78,7 @@ namespace SJP.ProcessRedux.Tests
             }
 
             [Test]
-            public void GetFullPath_GivenDotNetWithoutExtension_ReturnsOnlyPathInProgramFilesDir()
+            public static void GetFullPath_GivenDotNetWithoutExtension_ReturnsOnlyPathInProgramFilesDir()
             {
                 const string expected = @"C:\Program Files\dotnet\dotnet.exe";
                 var path = ProcessPath.GetFullPath("dotnet");
@@ -88,7 +88,7 @@ namespace SJP.ProcessRedux.Tests
             }
 
             [Test]
-            public void GetFullPath_GivenWordpad_ReturnsOnlyPathInProgramFilesDirViaAppPaths()
+            public static void GetFullPath_GivenWordpad_ReturnsOnlyPathInProgramFilesDirViaAppPaths()
             {
                 const string expected = @"C:\Program Files\Windows NT\Accessories\WORDPAD.EXE";
                 var path = ProcessPath.GetFullPath("WORDPAD.exe");
@@ -99,10 +99,10 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [TestFixture, TestPlatform.Osx]
-        public class OsxTests
+        internal static class OsxTests
         {
             [Test]
-            public void GetFullPaths_GivenSh_ReturnsPathInBinDir()
+            public static void GetFullPaths_GivenSh_ReturnsPathInBinDir()
             {
                 const string expected = "/bin/sh";
 
@@ -113,7 +113,7 @@ namespace SJP.ProcessRedux.Tests
             }
 
             [Test]
-            public void GetFullPath_GivenSh_ReturnsPathInBinDir()
+            public static void GetFullPath_GivenSh_ReturnsPathInBinDir()
             {
                 const string expected = "/bin/sh";
 
@@ -124,10 +124,10 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [TestFixture, TestPlatform.Linux]
-        public class LinuxTests
+        internal static class LinuxTests
         {
             [Test]
-            public void GetFullPaths_GivenSh_ReturnsPathInBinDir()
+            public static void GetFullPaths_GivenSh_ReturnsPathInBinDir()
             {
                 const string expected = "/bin/sh";
 
@@ -138,7 +138,7 @@ namespace SJP.ProcessRedux.Tests
             }
 
             [Test]
-            public void GetFullPath_GivenSh_ReturnsPathInBinDir()
+            public static void GetFullPath_GivenSh_ReturnsPathInBinDir()
             {
                 const string expected = "/bin/sh";
 
