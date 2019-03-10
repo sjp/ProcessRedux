@@ -9,17 +9,23 @@
     <Company />
     <Product />
     <Description>Simple event-driven process handling for .NET</Description>
-    <Copyright>Copyright © Simon Potter 2018</Copyright>
+    <Copyright>Copyright © Simon Potter 2019</Copyright>
     <PackageLicenseUrl>https://raw.github.com/sjp/ProcessRedux/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/sjp/ProcessRedux</PackageProjectUrl>
     <RepositoryUrl>https://github.com/sjp/ProcessRedux</RepositoryUrl>
     <PackageIconUrl>https://raw.github.com/sjp/ProcessRedux/master/processredux.svg</PackageIconUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
     <PackageReference Include="System.Reactive.Linq" Version="4.1.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
   </ItemGroup>
 
 </Project>
