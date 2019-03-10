@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
+using OSPlatform = System.Runtime.InteropServices.OSPlatform;
 
 namespace SJP.ProcessRedux.Tests
 {
