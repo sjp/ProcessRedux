@@ -33,7 +33,7 @@ namespace SJP.ProcessRedux.ConsoleTest
             {
                 process.OutputDataReceived += (_, data) => writer.Write(data);
                 process.Start();
-                var exitCode = process.WaitForExit();
+                _ = process.WaitForExit();
             }
         }
     }

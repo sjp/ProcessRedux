@@ -10,7 +10,7 @@ namespace SJP.ProcessRedux.Tests
     internal static class TestPlatform
     {
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        internal sealed class Windows : NUnitAttribute, IApplyToTest
+        internal sealed class WindowsAttribute : NUnitAttribute, IApplyToTest
         {
             public void ApplyToTest(Test test)
             {
@@ -27,7 +27,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        internal sealed class Osx : NUnitAttribute, IApplyToTest
+        internal sealed class OsxAttribute : NUnitAttribute, IApplyToTest
         {
             public void ApplyToTest(Test test)
             {
@@ -44,7 +44,7 @@ namespace SJP.ProcessRedux.Tests
         }
 
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        internal sealed class Linux : NUnitAttribute, IApplyToTest
+        internal sealed class LinuxAttribute : NUnitAttribute, IApplyToTest
         {
             public void ApplyToTest(Test test)
             {

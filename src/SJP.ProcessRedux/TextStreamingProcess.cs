@@ -262,14 +262,14 @@ namespace SJP.ProcessRedux
                     try
                     {
                         exitCode = _process.ExitCode;
-                        break;
+                        OnExitedReceived(exitCode.Value);
+                        return;
                     }
                     catch (InvalidOperationException)
                     {
                         Task.Delay(5);
                     }
                 }
-                OnExitedReceived(exitCode.Value);
             });
         }
 

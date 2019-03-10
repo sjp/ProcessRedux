@@ -155,7 +155,7 @@ namespace SJP.ProcessRedux
         public ProcessStartInfo StartInfo
         {
             get => _process.StartInfo;
-            set => _process.StartInfo = value ?? throw new ArgumentNullException(nameof(StartInfo));
+            set => _process.StartInfo = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace SJP.ProcessRedux
                     return _hasStarted;
                 }
 
-                var id = _process.Id;
+                _ = _process.Id;
                 _hasStarted = true;
                 return _hasStarted;
             }

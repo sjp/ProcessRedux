@@ -21,7 +21,7 @@ namespace SJP.ProcessRedux
                 throw new ArgumentNullException(nameof(processConfig));
 
             _process = new DataStreamingProcess(processConfig);
-            Exited += (_, __) => _hasExited = true;
+            Exited += (_, __) => HasExited = true;
             ErrorData = Observable
                 .FromEventPattern<byte[]>(h => _process.ErrorDataReceived += h, h => _process.ErrorDataReceived -= h)
                 .Select(x => x.EventArgs);
@@ -57,12 +57,12 @@ namespace SJP.ProcessRedux
         /// <summary>
         /// Gets a value indicating whether the associated process has been terminated.
         /// </summary>
-        public bool HasExited => _hasExited;
+        public bool HasExited { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the associated process has started.
         /// </summary>
-        public bool HasStarted => _hasStarted;
+        public bool HasStarted { get; private set; }
 
         /// <summary>
         /// Retrieves the current state of the process. The process must be started for this operation to be valid, see <see cref="HasStarted"/>.
@@ -79,11 +79,11 @@ namespace SJP.ProcessRedux
         /// </summary>
         public void Kill()
         {
-            if (_hasExited)
+            if (HasExited)
                 return;
 
             _process.Kill();
-            _hasExited = true;
+            HasExited = true;
         }
 
         /// <summary>
@@ -98,13 +98,13 @@ namespace SJP.ProcessRedux
         /// <returns><c>true</c> if a process resource is started; <c>false</c> otherwise.</returns>
         public bool Start()
         {
-            if (_hasStarted)
+            if (HasStarted)
                 return false;
 
             _process.Start();
-            _hasStarted = true;
+            HasStarted = true;
 
-            return _hasStarted;
+            return HasStarted;
         }
 
         /// <summary>
@@ -187,8 +187,6 @@ namespace SJP.ProcessRedux
         }
 
         private bool _disposed;
-        private bool _hasStarted;
-        private bool _hasExited;
         private EventHandler<int> _exitedHandler;
 
         private readonly DataStreamingProcess _process;

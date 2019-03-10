@@ -47,7 +47,7 @@ namespace SJP.ProcessRedux
             set
             {
                 if (value.IsNullOrWhiteSpace())
-                    throw new ArgumentNullException(nameof(FileName));
+                    throw new ArgumentNullException(nameof(value));
 
                 _fileName = value;
             }

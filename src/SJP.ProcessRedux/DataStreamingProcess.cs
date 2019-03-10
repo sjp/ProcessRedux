@@ -136,14 +136,14 @@ namespace SJP.ProcessRedux
 
             if (ErrorDataReceived != null)
             {
-                Action<byte[]> errorHandler = data => ErrorDataReceived?.Invoke(this, data);
+                void errorHandler(byte[] data) => ErrorDataReceived?.Invoke(this, data);
                 _errorReader = new AsyncStreamReader(_process.StandardError.BaseStream, errorHandler);
                 _errorReader.BeginRead();
             }
 
             if (OutputDataReceived != null)
             {
-                Action<byte[]> outputHandler = data => OutputDataReceived?.Invoke(this, data);
+                void outputHandler(byte[] data) => OutputDataReceived?.Invoke(this, data);
                 _outputReader = new AsyncStreamReader(_process.StandardOutput.BaseStream, outputHandler);
                 _outputReader.BeginRead();
             }

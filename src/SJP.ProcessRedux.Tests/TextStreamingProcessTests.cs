@@ -22,7 +22,7 @@ namespace SJP.ProcessRedux.Tests
             var config = new ProcessConfiguration(fileName);
 
             using (var textProcess = new TextStreamingProcess(config))
-                Assert.Throws<InvalidOperationException>(() => { var x = textProcess.State; });
+                Assert.Throws<InvalidOperationException>(() => _ = textProcess.State);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace SJP.ProcessRedux.Tests
             {
                 dataProcess.Start();
                 Task.Delay(100).Wait();
-                Assert.Throws<InvalidOperationException>(() => { var x = dataProcess.State; });
+                Assert.Throws<InvalidOperationException>(() => _ = dataProcess.State);
                 dataProcess.WaitForExit();
             }
         }
@@ -45,7 +45,7 @@ namespace SJP.ProcessRedux.Tests
             var config = new ProcessConfiguration(fileName);
 
             using (var textProcess = new TextStreamingProcess(config))
-                Assert.Throws<InvalidOperationException>(() => { var x = textProcess.StandardInput; });
+                Assert.Throws<InvalidOperationException>(() => _ = textProcess.StandardInput);
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace SJP.ProcessRedux.Tests
             {
                 textProcess.Start();
                 Task.Delay(100).Wait();
-                Assert.Throws<InvalidOperationException>(() => { var x = textProcess.StandardInput; });
+                Assert.Throws<InvalidOperationException>(() => _ = textProcess.StandardInput);
                 textProcess.WaitForExit();
             }
         }
