@@ -13,7 +13,7 @@ Avoid many of the complexities of working with `System.Diagnostics.Process` and 
 
 ## Highlights
 
-* Supports .NET Framework 4.5+, .NET Core 1.1+, .NET Standard 1.4+.
+* Supports .NET Standard 2.0.
 * Enables easy writing of *data* (i.e. `byte[]`) to and from standard input, output and error.
 * Avoid some of the common mistakes of `System.Diagnostics.Process`, e.g. forgetting `RedirectStandardOutput = true` when trying to observe standard output.
 * Tasks that are asynchronous in nature (e.g. waiting for a process to exit) are now async/await compatible.
