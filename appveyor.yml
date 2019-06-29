@@ -15,8 +15,8 @@ build:
   verbosity: minimal
 
 test_script:
-  - dotnet test src/SJP.ProcessRedux.Tests/SJP.ProcessRedux.Tests.csproj --configuration Release --logger:trx;LogFileName=SJP.ProcessRedux.Tests.results.xml
-  - ps: build/uploadtests.ps1 "src/SJP.ProcessRedux.Tests/TestResults/SJP.ProcessRedux.Tests.results.xml"
+  - dotnet test src/SJP.ProcessRedux.Tests/SJP.ProcessRedux.Tests.csproj --configuration Release --logger "trx;LogFileName=SJP.ProcessRedux.Tests.results.xml"
+  - ps: build/uploadtests.ps1 src/SJP.ProcessRedux.Tests/TestResults/SJP.ProcessRedux.Tests.results*.xml
 
 notifications:
 - provider: Email
