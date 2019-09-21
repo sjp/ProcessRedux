@@ -1,15 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <TreatSpecificWarningsAsErrors />
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <Authors>Simon Potter</Authors>
-    <Company />
-    <Product />
     <Description>Simple event-driven process handling for .NET</Description>
-    <Copyright>Copyright © Simon Potter 2019</Copyright>
     <PackageLicenseUrl>https://raw.github.com/sjp/ProcessRedux/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/sjp/ProcessRedux</PackageProjectUrl>
     <RepositoryUrl>https://github.com/sjp/ProcessRedux</RepositoryUrl>
