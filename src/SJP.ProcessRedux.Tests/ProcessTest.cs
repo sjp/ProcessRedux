@@ -6,6 +6,8 @@ namespace SJP.ProcessRedux.Tests
     [TestPlatform.Windows]
     internal class ProcessTest
     {
+        protected ProcessTest() { }
+
         static ProcessTest()
         {
             ExtractToCurrentDirectoryIfMissing();

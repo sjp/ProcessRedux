@@ -230,7 +230,7 @@ namespace SJP.ProcessRedux
         private void OnExitedReceived(object sender, EventArgs args)
         {
             // the exit code will not be set yet, wait until it is, then invoke asynchronously
-            Task.Run(() =>
+            _ = Task.Run(() =>
             {
                 int? exitCode = null;
                 while (true)
@@ -238,14 +238,14 @@ namespace SJP.ProcessRedux
                     try
                     {
                         exitCode = _process.ExitCode;
-                        break;
+                        OnExitedReceived(exitCode.Value);
+                        return;
                     }
                     catch (InvalidOperationException)
                     {
                         Task.Delay(5);
                     }
                 }
-                OnExitedReceived(exitCode.Value);
             });
         }
 

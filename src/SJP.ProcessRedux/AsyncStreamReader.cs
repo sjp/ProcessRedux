@@ -24,7 +24,7 @@ namespace SJP.ProcessRedux
         }
 
         // User calls BeginRead to start the asynchronous read
-        public void BeginRead() => _readToBufferTask = Task.Run(ReadBufferAsync);
+        public void BeginRead() => _ = Task.Run(ReadBufferAsync);
 
         public void CancelOperation() => _cts.Cancel();
 
@@ -62,10 +62,7 @@ namespace SJP.ProcessRedux
         }
 
         private readonly CancellationTokenSource _cts;
-        private Task _readToBufferTask;
-
         private readonly Action<byte[]> _callBack;
-
         private readonly Stream _stream;
         private readonly byte[] _byteBuffer;
 

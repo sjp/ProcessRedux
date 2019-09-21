@@ -254,7 +254,7 @@ namespace SJP.ProcessRedux
         private void OnExitedReceived(object sender, EventArgs args)
         {
             // the exit code will not be set yet, wait until it is, then invoke asynchronously
-            Task.Run(() =>
+            _ = Task.Run(() =>
             {
                 int? exitCode = null;
                 while (true)

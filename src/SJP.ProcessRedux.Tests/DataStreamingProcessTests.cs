@@ -3,7 +3,6 @@ using NUnit.Framework;
 using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SJP.ProcessRedux.Tests
 {
